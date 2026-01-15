@@ -118,3 +118,71 @@ body {
     margin: 0.5rem 0;
   }
 }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* --- Projects grid --- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.project-card {
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #1a1a1a;
+  background-color: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.project-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.project-card h2 {
+  font-size: 1.25rem;
+  margin: 0.5rem 1rem 0;
+  color: #0b3d91;
+}
+
+.project-card p {
+  font-size: 0.95rem;
+  margin: 0.5rem 1rem 1rem;
+  color: #555;
+}
+
+.project-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+  /* Start GIF paused as a static first frame if possible */
+}
+
+/* On hover, the GIF animates */
+.project-card:hover .project-image {
+  filter: brightness(1.05); /* subtle highlight */
+  /* GIFs auto-play by default when hovered if using video or animated GIFs */
+}
+
+.project-card:hover img {
+  transform: scale(1.03);
+  transition: transform 0.3s ease;
+}

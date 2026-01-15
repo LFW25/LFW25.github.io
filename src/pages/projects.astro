@@ -1,13 +1,38 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+// List of projects
+const projects = [
+  {
+    title: "Plasma Physics Modeling",
+    description: "First-principles plasma simulations with two-stream instability visualization.",
+    image: "/images/twostream.gif",
+    url: "/projects/plasma"
+  },
+  {
+    title: "Experimental Optomechanics Demo",
+    description: "Optical system for testing mechanical response and sensor integration.",
+    image: "/images/placeholder.png", // Replace with an actual GIF or screenshot
+    url: "/projects/placeholder"
+  }
+];
 ---
 
 <BaseLayout title="Projects">
   <h1>Projects</h1>
   <p>Selected technical work demonstrating experimental, computational, and modeling expertise.</p>
 
-  <ul>
-    <li><a href="/projects/plasma">Plasma Physics Modeling</a></li>
-    <li><a href="/projects/placeholder">Experimental Optomechanics Demo</a></li>
-  </ul>
+  <div class="projects-grid">
+    {projects.map(project => (
+      <a href={project.url} class="project-card">
+        <img
+         src={project.image} 
+         alt={project.title} 
+         class="project-image" 
+        />
+        <h2>{project.title}</h2>
+        <p>{project.description}</p>
+      </a>
+    ))}
+  </div>
 </BaseLayout>
