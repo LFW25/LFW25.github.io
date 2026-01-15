@@ -178,3 +178,64 @@ img {
     margin: 0.5rem 0;
   }
 }
+
+/* --- Research page grid --- */
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.research-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.research-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.research-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #0b3d91;
+}
+
+.research-card p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.research-card details summary {
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  list-style: none;
+  outline: none;
+}
+
+.research-card details[open] summary::after {
+  content: "▲";
+  float: right;
+}
+
+.research-card details summary::after {
+  content: "▼";
+  float: right;
+}
+
+.research-card ul {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.research-card ul li {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
