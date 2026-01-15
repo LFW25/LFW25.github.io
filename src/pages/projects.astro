@@ -5,16 +5,9 @@ const projects = [
   {
     title: "Brownian Crystallisation",
     category: "Physics",
-    thumbnail: "/images/crystallisation-static.png",
-    preview: "/images/crystallisation.mp4",
+    poster: "/images/crystallisation.png",
+    video: "/images/crystallisation.mp4",
     link: "/projects/plasma"
-  },
-  {
-    title: "Two-Stream Instability Simulation",
-    category: "Physics",
-    thumbnail: "/images/twostream-static.png",
-    preview: "/images/twostream.mp4",
-    link: "/projects/twostream"
   }
 ];
 ---
@@ -23,23 +16,15 @@ const projects = [
   <section class="projects-container">
     {projects.map(project => (
       <a href={project.link} class="project-card">
-        <div class="project-media">
-          <img
-            src={project.thumbnail}
-            alt={project.title}
-            class="project-static"
-            loading="lazy"
-          />
-
-          <video
-            class="project-preview"
-            src={project.preview}
-            muted
-            loop
-            playsinline
-            preload="none"
-          ></video>
-        </div>
+        <video
+          class="project-video"
+          src={project.video}
+          poster={project.poster}
+          muted
+          loop
+          playsinline
+          preload="none"
+        ></video>
 
         <h3 class="project-title">{project.title}</h3>
         <span class="project-category">{project.category}</span>
@@ -48,18 +33,14 @@ const projects = [
   </section>
 </BaseLayout>
 
-<!-- JS GOES HERE -->
 <script>
-  document.querySelectorAll(".project-card").forEach(card => {
-    const video = card.querySelector("video");
-    if (!video) return;
-
-    card.addEventListener("mouseenter", () => {
+  document.querySelectorAll(".project-video").forEach(video => {
+    video.addEventListener("mouseenter", () => {
       video.currentTime = 0;
       video.play();
     });
 
-    card.addEventListener("mouseleave", () => {
+    video.addEventListener("mouseleave", () => {
       video.pause();
       video.currentTime = 0;
     });
