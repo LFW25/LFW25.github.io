@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const project = {
+  title: "Experimental Optomechanics Demo",
+  problem: "Developing a small-scale optical system to test mechanical response and sensor integration.",
+  approach: "Combine optical readout with electromechanical components to measure and control mechanical motion in a lab setting.",
+  implementation: [
+    "Design of optical interferometer setup",
+    "Integration with microcontrollers for data acquisition",
+    "Python scripts for automated data processing",
+    "Documentation of experimental protocol for reproducibility"
+  ],
+  gif: "", // optional, leave empty if no GIF
+  outcome: "Provides a modular testbed for future optomechanical experiments and rapid prototyping of instrumentation setups."
+};
+---
+
+<BaseLayout title={project.title}>
+  <h1>{project.title}</h1>
+
+  <h2>Problem</h2>
+  <p>{project.problem}</p>
+
+  <h2>Approach</h2>
+  <p>{project.approach}</p>
+
+  <h2>Implementation</h2>
+  <ul>
+    {project.implementation.map(item => <li>{item}</li>)}
+  </ul>
+
+  {project.gif && (
+    <figure>
+      <img src={Astro.resolve(project.gif)} alt={project.title} style="max-width:100%; border-radius:8px;" />
+      <figcaption>{project.title} visualization</figcaption>
+    </figure>
+  )}
+
+  <h2>Outcome & Next Steps</h2>
+  <p>{project.outcome}</p>
+
+  <p>Back to <a href="/projects">Projects</a>.</p>
+</BaseLayout>

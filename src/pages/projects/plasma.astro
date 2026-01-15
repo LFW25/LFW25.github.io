@@ -1,52 +1,44 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const project = {
+  title: "Plasma Physics Modeling",
+  problem: "Non-equilibrium plasma systems exhibit instabilities that can impact both experimental results and device performance. Understanding these instabilities is critical for predictive modeling in laboratory and applied plasma systems.",
+  approach: "I use first-principles kinetic models to simulate plasma behavior, focusing on the two-stream instability as a representative case. The goal is to bridge theoretical understanding and practical system behavior with reproducible, high-fidelity simulations.",
+  implementation: [
+    "Python-based numerical simulation using optimized solvers",
+    "Modular code structure allowing extension to other plasma phenomena",
+    "Visualizations of instability growth and phase-space dynamics",
+    "Hosted on GitHub for transparency and reproducibility (https://github.com/LFW25/twostream-optimized)"
+  ],
+  gif: "/images/twostream.gif",
+  outcome: "Produces accurate simulations that reproduce expected instability behavior. Future work includes building a web-based interface for real-time parameter manipulation and visualization."
+};
 ---
 
-<BaseLayout title="Plasma Physics Modeling">
-  <h1>Plasma Physics Modeling</h1>
+<BaseLayout title={project.title}>
+  <h1>{project.title}</h1>
 
   <h2>Problem</h2>
-  <p>
-    Non-equilibrium plasma systems exhibit instabilities that can impact both
-    experimental results and device performance. Understanding these instabilities
-    is critical for predictive modeling in laboratory and applied plasma systems.
-  </p>
+  <p>{project.problem}</p>
 
   <h2>Approach</h2>
-  <p>
-    I use first-principles kinetic models to simulate plasma behavior, focusing
-    on the two-stream instability as a representative case. The goal is to bridge
-    theoretical understanding and practical system behavior by producing
-    reproducible, high-fidelity simulations.
-  </p>
+  <p>{project.approach}</p>
 
   <h2>Implementation</h2>
   <ul>
-    <li>Python-based numerical simulation using optimized solvers</li>
-    <li>Modular code structure allowing extension to other plasma phenomena</li>
-    <li>Visualizations of instability growth and phase-space dynamics</li>
-    <li>Hosted on <a href="https://github.com/LFW25/twostream-optimized">GitHub</a> for transparency and reproducibility</li>
+    {project.implementation.map(item => <li>{item}</li>)}
   </ul>
 
-  <h2>Simulation Preview</h2>
-  <p>
-    Below is a GIF showing the growth of the two-stream instability over time:
-  </p>
-
-  <figure>
-    <img src="/images/twostream.gif" alt="Two-stream plasma instability simulation" style="max-width:100%; border-radius:8px;" />
-    <figcaption>Two-stream instability: phase-space evolution over time</figcaption>
-  </figure>
+  {project.gif && (
+    <figure>
+      <img src={Astro.resolve(project.gif)} alt={project.title} style="max-width:100%; border-radius:8px;" />
+      <figcaption>{project.title} visualization</figcaption>
+    </figure>
+  )}
 
   <h2>Outcome & Next Steps</h2>
-  <p>
-    This work produces accurate simulations that reproduce expected instability
-    behavior and provides a foundation for interactive exploration. Future work
-    includes building a web-based interface for real-time parameter manipulation
-    and visualization.
-  </p>
+  <p>{project.outcome}</p>
 
-  <p>
-    Back to <a href="/projects">Projects</a>.
-  </p>
+  <p>Back to <a href="/projects">Projects</a>.</p>
 </BaseLayout>
