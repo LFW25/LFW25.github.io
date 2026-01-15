@@ -1,18 +1,20 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// List of projects
+// Projects with hover GIFs
 const projects = [
   {
     title: "Plasma Physics Modeling",
     description: "First-principles plasma simulations with two-stream instability visualization.",
-    image: "/images/twostream.gif",
+    staticImage: "/images/twostream-static.png",
+    gif: "/images/twostream.gif",
     url: "/projects/plasma"
   },
   {
     title: "Experimental Optomechanics Demo",
     description: "Optical system for testing mechanical response and sensor integration.",
-    image: "/images/placeholder.png", // Replace with an actual GIF or screenshot
+    staticImage: "/images/placeholder-static.png",
+    gif: "/images/placeholder.gif",
     url: "/projects/placeholder"
   }
 ];
@@ -25,10 +27,11 @@ const projects = [
   <div class="projects-grid">
     {projects.map(project => (
       <a href={project.url} class="project-card">
-        <img
-         src={project.image} 
-         alt={project.title} 
-         class="project-image" 
+        <img 
+          src={project.staticImage} 
+          data-gif={project.gif} 
+          alt={project.title} 
+          class="project-image" 
         />
         <h2>{project.title}</h2>
         <p>{project.description}</p>
@@ -36,3 +39,16 @@ const projects = [
     ))}
   </div>
 </BaseLayout>
+
+<!-- Swap static image to GIF on hover -->
+<script>
+  const cards = document.querySelectorAll('.project-card');
+  cards.forEach(card => {
+    const img = card.querySelector('.project-image');
+    const gif = img.dataset.gif;
+    const staticSrc = img.src;
+
+    card.addEventListener('mouseenter', () => { img.src = gif; });
+    card.addEventListener('mouseleave', () => { img.src = staticSrc; });
+  });
+</script>
