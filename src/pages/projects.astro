@@ -2,115 +2,66 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = [
-{
-  title: "Plasma Two-Stream Instability",
-  category: "Physics",
-  thumbnail: "/images/twostream-static.png",
-  preview: "/images/twostream.gif", // or .mp4
-  previewType: "gif",
-  link: "/projects/plasma",
-  description: "First-principles simulation of kinetic plasma instabilities."
-},
-{
-  title: "Brownian Crystallisation",
-  category: "Physics",
-  thumbnail: "/images/crystallisation-static.png",
-  preview: "/images/crystallisation.gif",
-  previewType: "gif",
-  link: "/projects/crystallisation",
-  description: "Diffusion-limited aggregation and emergent crystallisation via Brownian motion."
-},
   {
-    title: "Low-Temperature AFM Instrumentation",
-    category: "Engineering",
-    image: "/images/afm.jpg",
-    link: "/projects/afm",
-    description: "Cryogenic AFM instrumentation and data acquisition systems."
+    title: "Brownian Crystallisation",
+    category: "Physics",
+    thumbnail: "/images/crystallisation.png",
+    preview: "/images/crystallisation.mp4",
+    link: "/projects/plasma"
   },
   {
-    title: "Trust in Science Survey Analysis",
-    category: "Data Science",
-    image: "/images/data.jpg",
-    link: "/projects/trust",
-    description: "Statistical analysis of public trust in science across demographics."
+    title: "Two-Stream Instability Simulation",
+    category: "Physics",
+    thumbnail: "/images/twostream.png",
+    preview: "/images/twostream.mp4",
+    link: "/projects/twostream"
   }
 ];
 ---
 
 <BaseLayout title="Projects">
-  <h1>Projects</h1>
-  <p>
-    A selection of physics, engineering, and data science projects spanning
-    research, instrumentation, and quantitative analysis.
-  </p>
-
-  <!-- Filter -->
-  <div class="project-filter">
-    <label for="category-select">Filter by category:</label>
-    <select id="category-select">
-      <option value="all">All</option>
-      <option value="Physics">Physics</option>
-      <option value="Engineering">Engineering</option>
-      <option value="Data Science">Data Science</option>
-    </select>
-  </div>
-
-  <!-- Project Grid -->
-  <div class="projects-grid">
+  <section class="projects-container">
     {projects.map(project => (
-<div
-  class="project-card"
-  data-category={project.category}
->
-  <a href={project.link}>
-    <div class="project-media">
-      <img
-        src={project.thumbnail}
-        alt={project.title}
-        class="static-image"
-      />
+      <a href={project.link} class="project-card">
+        <div class="project-media">
+          <img
+            src={project.thumbnail}
+            alt={project.title}
+            class="project-static"
+            loading="lazy"
+          />
 
-      {project.previewType === "gif" && (
-        <img
-          src={project.preview}
-          alt=""
-          class="hover-media"
-        />
-      )}
+          <video
+            class="project-preview"
+            src={project.preview}
+            muted
+            loop
+            playsinline
+            preload="none"
+          ></video>
+        </div>
 
-      {project.previewType === "video" && (
-        <video
-          class="hover-media"
-          muted
-          loop
-          playsinline
-        >
-          <source src={project.preview} type="video/mp4" />
-        </video>
-      )}
-    </div>
-
-    <h2>{project.title}</h2>
-    <p class="category">{project.category}</p>
-    <p>{project.description}</p>
-  </a>
-</div>
-
+        <h3 class="project-title">{project.title}</h3>
+        <span class="project-category">{project.category}</span>
+      </a>
     ))}
-  </div>
-
-  <script>
-    const select = document.getElementById("category-select");
-    const cards = document.querySelectorAll(".project-card");
-
-    select.addEventListener("change", () => {
-      const value = select.value;
-
-      cards.forEach(card => {
-        const category = card.dataset.category;
-        card.style.display =
-          value === "all" || category === value ? "block" : "none";
-      });
-    });
-  </script>
+  </section>
 </BaseLayout>
+
+<!-- JS GOES HERE -->
+<script>
+  document.querySelectorAll(".project-card").forEach(card => {
+    const video = card.querySelector("video");
+    if (!video) return;
+
+    card.addEventListener("mouseenter", () => {
+      video.currentTime = 0;
+      video.play();
+    });
+
+    card.addEventListener("mouseleave", () => {
+      video.pause();
+      video.currentTime = 0;
+    });
+  });
+</script>
