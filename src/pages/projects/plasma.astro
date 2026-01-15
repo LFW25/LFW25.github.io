@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Plasma Physics Modeling">
+  <h1>Plasma Physics Modeling</h1>
+
+  <h2>Problem</h2>
+  <p>
+    Non-equilibrium plasma systems exhibit instabilities that can impact both
+    experimental results and device performance. Understanding these instabilities
+    is critical for predictive modeling in laboratory and applied plasma systems.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    I use first-principles kinetic models to simulate plasma behavior, focusing
+    on the two-stream instability as a representative case. The goal is to bridge
+    theoretical understanding and practical system behavior by producing
+    reproducible, high-fidelity simulations.
+  </p>
+
+  <h2>Implementation</h2>
+  <ul>
+    <li>Python-based numerical simulation using optimized solvers</li>
+    <li>Modular code structure allowing extension to other plasma phenomena</li>
+    <li>Visualizations of instability growth and phase-space dynamics</li>
+    <li>Hosted on <a href="https://github.com/LFW25/twostream-optimized">GitHub</a> for transparency and reproducibility</li>
+  </ul>
+
+  <h2>Simulation Preview</h2>
+  <p>
+    Below is a GIF showing the growth of the two-stream instability over time:
+  </p>
+
+  <figure>
+    <img src="/images/twostream.gif" alt="Two-stream plasma instability simulation" style="max-width:100%; border-radius:8px;" />
+    <figcaption>Two-stream instability: phase-space evolution over time</figcaption>
+  </figure>
+
+  <h2>Outcome & Next Steps</h2>
+  <p>
+    This work produces accurate simulations that reproduce expected instability
+    behavior and provides a foundation for interactive exploration. Future work
+    includes building a web-based interface for real-time parameter manipulation
+    and visualization.
+  </p>
+
+  <p>
+    Back to <a href="/projects">Projects</a>.
+  </p>
+</BaseLayout>

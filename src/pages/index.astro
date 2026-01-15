@@ -1,16 +1,26 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home">
+  <h1>Lily Williams</h1>
+  <h2>Physicist & Data Scientist</h2>
+
+  <p>
+    I build quantitative models and experimental systems for physical problems,
+    with a focus on first-principles simulation, scientific computing, and instrumentation.
+  </p>
+
+  <h3>What I work on</h3>
+  <ul>
+    <li>Novel experimental instrumentation and data acquisition</li>
+    <li>Optical and electromechanical systems</li>
+    <li>Scientific software development and numerical simulation</li>
+    <li>First-principles modeling of physical systems (e.g. plasma instabilities, crystal growth)</li>
+    <li>Quantitative methods for sustainability-relevant problems</li>
+  </ul>
+
+  <p>
+    See the <a href="/projects">Projects</a> page for selected technical work.
+  </p>
+</BaseLayout>
