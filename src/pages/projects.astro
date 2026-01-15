@@ -7,29 +7,32 @@ const projects = [
     category: "Physics",
     poster: "/images/crystallisation-static.png",
     video: "/images/crystallisation.mp4",
-    link: "/projects/crystallisation"
+    link: "/projects/crystallisation",
+    stack: ["Python", "NumPy", "Matplotlib", "Monte Carlo"]
   },
   {
     title: "Two-Stream Instability Simulation",
     category: "Physics",
     poster: "/images/twostream-static.png",
     video: "/images/twostream.mp4",
-    link: "/projects/plasma"
+    link: "/projects/plasma",
+    stack: ["Python", "NumPy", "SciPy", "Matplotlib"]
   },
 {
     title: "Low-Temperature AFM Instrumentation",
     category: "Engineering",
     poster: "/images/afm-static.png",
     video: "/images/afm.mp4",
-    link: "/projects/afm"
+    link: "/projects/afm",
+    stack: ["AFM", "Cryogenics", "DAQ", "Python", "Open-Source Control", "Electromechanical Design"],
   },
-
   {
     title: "Trust in Science Survey Analysis",
     category: "Data Science",
     poster: "/images/trust-static.png",
     video: "/images/trust.mp4",
-    link: "/projects/trust"
+    link: "/projects/trust",
+    stack: ["Statistical Analysis", "Survey Data", "Python", "pandas", "Regression"]
   }
 ];
 ---
@@ -51,6 +54,25 @@ const projects = [
   </div>
 
          <h3 class="project-title">{project.title}</h3>
+<div class="tag-row">
+  <span class={`badge badge-${project.category.toLowerCase().replace(/\s+/g, "-")}`}>
+    {project.category}
+  </span>
+</div>
+
+{project.stack?.length > 0 && (
+  <div class="tag-row tag-row-tech">
+    {project.stack.slice(0, 5).map(item => (
+      <span class="tag-pill">{item}</span>
+    ))}
+    {project.stack.length > 5 && (
+  <span class="tag-pill tag-pill-muted">+ more</span>
+)}
+
+  </div>
+)}
+
+
   <span
   class={`project-category badge badge-${project.category.toLowerCase().replace(/\s+/g, "-")}`}
 >

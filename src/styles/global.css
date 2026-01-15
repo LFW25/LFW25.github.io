@@ -211,6 +211,52 @@ code {
   display: inline-block;
 }
 
+/* =========================
+   Research tag row
+   ========================= */
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+
+/* =========================
+   Tech stack pills
+   ========================= */
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+.tag-row-tech {
+  margin-top: 0.2rem;
+  margin-bottom: 0.9rem;
+}
+
+.tag-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 550;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--fg);
+  letter-spacing: 0.02em;
+}
+
+
+.tag-pill-muted {
+  opacity: 0.6;
+  font-weight: 500;
+}
+
 
 /* =========================
    Fixed-size project previews

@@ -3,18 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const researchAreas = [
   {
-    title: "Plasma Physics Modeling",
-    description: "First-principles modeling of plasma instabilities, including the two-stream instability.",
-    details: [
-      "Python-based simulation framework for plasma instabilities",
-      "Numerical methods for high-fidelity modeling of phase-space dynamics",
-      "Visualization of instability growth and predictive analysis",
-      "Public repository: https://github.com/LFW25/twostream-optimized"
-    ]
-  },
-  {
     title: "Low-Temperature AFM Instrumentation",
     description: "Development of atomic force microscopy systems for silicon nanodevices relevant to quantum computing.",
+    tags: ["Physics", "Engineering"],
+    stack: ["Python", "NumPy", "SciPy", "Matplotlib"],
     details: [
       "Design and optimization of cryogenic AFM setups",
       "Electromechanical and optical integration for precision measurements",
@@ -23,17 +15,10 @@ const researchAreas = [
     ]
   },
   {
-    title: "Sustainability and Quantitative Methods",
-    description: "Application of quantitative and computational methods to sustainability-relevant problems.",
-    details: [
-      "Modeling energy systems and experimental technologies",
-      "Quantitative evaluation of resource efficiency and material usage",
-      "Interdisciplinary research combining physics, computation, and sustainability science"
-    ]
-  },
-  {
     title: "Lanthanide-Doped Y₂SiO₅ Microcrystals for Quantum and Biomedical Applications (Published)",
     description: "Synthesis, characterization, and application of rare-earth doped microcrystals, linking optical and biomedical applications.",
+    tags: ["Physics"],
+    stack: ["Materials Physics", "Spectroscopy", "Photoluminescence", "SEM", "XRD", "Synthetic Chemistry"],
     details: [
       "Synthesized lanthanide-doped Y₂SiO₅ microcrystals using solution combustion, solid-state, and sol–gel methods.",
       "Performed structural and cryogenic spectroscopic measurements of Nd³⁺, Eu³⁺, and Er³⁺ dopants.",
@@ -54,15 +39,43 @@ const researchAreas = [
   <div class="research-grid">
     {researchAreas.map((area, index) => (
       <div class="research-card">
-        <h2>{area.title}</h2>
-        <p>{area.description}</p>
-        <details>
-          <summary>View Details</summary>
-          <ul>
-            {area.details.map(detail => <li>{detail}</li>)}
-          </ul>
-        </details>
-      </div>
+  <h2>{area.title}</h2>
+
+<div class="tag-row">
+  {area.tags.map(tag => (
+    <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>
+      {tag}
+    </span>
+  ))}
+</div>
+
+{area.stack?.length > 0 && (
+  <div class="tag-row tag-row-tech">
+    {area.stack.map(item => (
+      <span class="tag-pill">{item}</span>
+    ))}
+  </div>
+)}
+
+
+  <div class="tag-row">
+    {area.tags.map(tag => (
+      <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>
+        {tag}
+      </span>
+    ))}
+  </div>
+
+  <p>{area.description}</p>
+
+  <details>
+    <summary>View Details</summary>
+    <ul>
+      {area.details.map(detail => <li>{detail}</li>)}
+    </ul>
+  </details>
+</div>
+
     ))}
   </div>
 </BaseLayout>
