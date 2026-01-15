@@ -2,13 +2,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const projects = [
-  {
-    title: "Plasma Two-Stream Instability",
-    category: "Physics",
-    image: "/images/plasma.gif",
-    link: "/projects/plasma",
-    description: "First-principles simulation of kinetic plasma instabilities."
-  },
+{
+  title: "Plasma Two-Stream Instability",
+  category: "Physics",
+  thumbnail: "/images/twostream-static.png",
+  preview: "/images/twostream.gif", // or .mp4
+  previewType: "gif",
+  link: "/projects/plasma",
+  description: "First-principles simulation of kinetic plasma instabilities."
+}
+
   {
     title: "Low-Temperature AFM Instrumentation",
     category: "Engineering",
@@ -47,16 +50,44 @@ const projects = [
   <!-- Project Grid -->
   <div class="projects-grid">
     {projects.map(project => (
-      <a
-        href={project.link}
-        class="project-card"
-        data-category={project.category}
-      >
-        <img src={project.image} alt={project.title} />
-        <h2>{project.title}</h2>
-        <p class="category">{project.category}</p>
-        <p>{project.description}</p>
-      </a>
+<div
+  class="project-card"
+  data-category={project.category}
+>
+  <a href={project.link}>
+    <div class="project-media">
+      <img
+        src={project.thumbnail}
+        alt={project.title}
+        class="static-image"
+      />
+
+      {project.previewType === "gif" && (
+        <img
+          src={project.preview}
+          alt=""
+          class="hover-media"
+        />
+      )}
+
+      {project.previewType === "video" && (
+        <video
+          class="hover-media"
+          muted
+          loop
+          playsinline
+        >
+          <source src={project.preview} type="video/mp4" />
+        </video>
+      )}
+    </div>
+
+    <h2>{project.title}</h2>
+    <p class="category">{project.category}</p>
+    <p>{project.description}</p>
+  </a>
+</div>
+
     ))}
   </div>
 

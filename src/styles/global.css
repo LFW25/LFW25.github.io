@@ -238,3 +238,55 @@ nav a:hover {
     padding: 2rem 1rem;
   }
 }
+
+
+/* ================================
+   Project media hover preview
+   ================================ */
+
+.project-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 0.8rem;
+}
+
+.project-media img,
+.project-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Static image (default) */
+.project-media .static-image {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover media (gif/video) */
+.project-media .hover-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* Hover behavior */
+.project-card:hover .hover-media {
+  opacity: 1;
+}
+
+.project-card:hover .static-image {
+  opacity: 0;
+}
+
+/* Video-specific */
+.project-media video {
+  pointer-events: none;
+}
