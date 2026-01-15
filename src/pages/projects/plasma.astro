@@ -30,12 +30,12 @@ const project = {
     {project.implementation.map(item => <li>{item}</li>)}
   </ul>
 
-  {project.gif && (
-    <figure>
-      <img src={Astro.resolve(project.gif)} alt={project.title} style="max-width:100%; border-radius:8px;" />
-      <figcaption>{project.title} visualization</figcaption>
-    </figure>
-  )}
+{project.gif && (
+  <figure>
+    <img src="../../images/twostream.gif" alt={project.title} style="max-width:100%; border-radius:8px;" />
+    <figcaption>{project.title} visualization</figcaption>
+  </figure>
+)}
 
   <h2>Outcome & Next Steps</h2>
   <p>{project.outcome}</p>
