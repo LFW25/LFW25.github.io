@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const researchAreas = [
+  {
+    title: "Plasma Physics Modeling",
+    description: "First-principles modeling of plasma instabilities, including the two-stream instability. Focuses on quantitative simulation of kinetic and non-equilibrium plasma phenomena.",
+    details: [
+      "Python-based simulation framework for plasma instabilities",
+      "Numerical methods for high-fidelity modeling of phase-space dynamics",
+      "Visualization of instability growth and predictive analysis",
+      "Public repository: https://github.com/LFW25/twostream-optimized"
+    ]
+  },
+  {
+    title: "Low-Temperature AFM Instrumentation",
+    description: "Development of atomic force microscopy systems for silicon nanodevices relevant to quantum computing and nanoscale characterization.",
+    details: [
+      "Design and optimization of cryogenic AFM setups",
+      "Electromechanical and optical integration for precision measurements",
+      "Software for data acquisition, automation, and analysis",
+      "Research focus on combining experimental fidelity with reproducible measurement protocols"
+    ]
+  },
+  {
+    title: "Sustainability and Quantitative Methods",
+    description: "Application of quantitative and computational methods to sustainability-relevant problems, bridging physics expertise with environmental impact analysis.",
+    details: [
+      "Modeling energy systems and experimental technologies",
+      "Quantitative evaluation of resource efficiency and material usage",
+      "Interdisciplinary research combining physics, computation, and sustainability science"
+    ]
+  },
+  {
+    title: "Lanthanide-Doped Y₂SiO₅ Microcrystals for Quantum and Biomedical Applications",
+    description: "Synthesis, characterization, and application of rare-earth doped Y₂SiO₅ microcrystals, combining experimental optics, materials science, and biomedical relevance.",
+    details: [
+      "Synthesized lanthanide-doped Y₂SiO₅ microcrystals using solution combustion, solid-state, and sol–gel methods, identifying sol–gel as producing high-quality crystalline phases suitable for optical characterization.",
+      "Performed structural and cryogenic spectroscopic measurements to evaluate optical quality, inhomogeneous broadening, and dopant behavior (Nd³⁺, Eu³⁺, Er³⁺), establishing relevance to photonic quantum systems.",
+      "Demonstrated that sol–gel microcrystals produced strong optical quality and narrow linewidths comparable to bulk crystals, suitable for precision optical experiments.",
+      "Explored biomedical relevance: lanthanide-doped materials can act as optical probes for deep-tissue imaging, diagnostic sensing, and multi-modal contrast agents, leveraging upconversion luminescence, long emission lifetimes, and NIR excitation. ([PubMed 33103883](https://pubmed.ncbi.nlm.nih.gov/33103883/), [PubMed 34533048](https://pubmed.ncbi.nlm.nih.gov/34533048/))",
+      "Potential therapeutic applications include photodynamic and photothermal therapies, as well as advanced biosensing for point-of-care diagnostics. ([PubMed 35407706](https://pubmed.ncbi.nlm.nih.gov/35407706/))",
+      "This research was conducted as one of my second-year undergraduate theses and resulted in a peer-reviewed publication on which I was second author. ([ScienceDirect link](https://www.sciencedirect.com/science/article/abs/pii/S0925346723006651?utm_source=chatgpt.com))"
+    ]
+  }
+];
+---
+
+<BaseLayout title="Research">
+  <h1>Research & Expertise</h1>
+  <p>
+    My research spans experimental physics, computational modeling, and applied quantitative analysis. I focus on building predictive models, designing experimental systems, and applying rigorous scientific computing methods to solve complex physical and sustainability-related problems.
+  </p>
+
+  {researchAreas.map(area => (
+    <section>
+      <h2>{area.title}</h2>
+      <p>{area.description}</p>
+      {area.details.length > 0 && (
+        <ul>
+          {area.details.map(detail => <li>{detail}</li>)}
+        </ul>
+      )}
+    </section>
+  ))}
+
+  <p>
+    For a selection of my technical work and projects, see the <a href="/projects">Projects</a> page.
+  </p>
+</BaseLayout>
