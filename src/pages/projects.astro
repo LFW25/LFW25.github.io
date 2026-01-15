@@ -61,4 +61,17 @@ const projects = [
   </div>
 
   <script>
-    const select = document.getElementById(
+    const select = document.getElementById("category-select");
+    const cards = document.querySelectorAll(".project-card");
+
+    select.addEventListener("change", () => {
+      const value = select.value;
+
+      cards.forEach(card => {
+        const category = card.dataset.category;
+        card.style.display =
+          value === "all" || category === value ? "block" : "none";
+      });
+    });
+  </script>
+</BaseLayout>
