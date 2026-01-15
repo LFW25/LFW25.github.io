@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Brownian Crystallisation">
+  <h1>Brownian Crystallisation (Diffusion-Limited Aggregation)</h1>
+
+  <p class="project-subtitle">
+    Stochastic simulation of crystallisation via Brownian motion and irreversible aggregation.
+  </p>
+
+  <img
+    src="/images/crystallisation.gif"
+    alt="Brownian crystallisation via diffusion-limited aggregation"
+    class="project-hero"
+  />
+
+  <section>
+    <h2>Overview</h2>
+    <p>
+      This project investigates <strong>Brownian crystallisation</strong> using a
+      <strong>diffusion-limited aggregation (DLA)</strong> model.
+      Particles undergo random walks on a two-dimensional lattice and irreversibly
+      bind upon contact with a growing solid cluster, forming emergent crystalline
+      and fractal structures.
+    </p>
+
+    <p>
+      The simulation explores how simple stochastic rules at the microscopic level
+      lead to complex macroscopic structure — a central theme in statistical physics
+      and non-equilibrium systems.
+    </p>
+  </section>
+
+  <section>
+    <h2>Physical Model</h2>
+    <ul>
+      <li>Particles perform discrete two-dimensional Brownian motion</li>
+      <li>Motion occurs on a finite square lattice</li>
+      <li>Particles stick irreversibly upon first contact with the aggregate</li>
+      <li>The aggregate acts as a growing absorbing boundary</li>
+    </ul>
+
+    <p>
+      This model captures the essential physics of crystallisation and pattern
+      formation in diffusion-dominated regimes, relevant to crystal growth,
+      electrochemical deposition, and colloidal aggregation.
+    </p>
+  </section>
+
+  <section>
+    <h2>Implementation</h2>
+    <ul>
+      <li>Monte Carlo simulation of multi-particle random walks</li>
+      <li>Vectorized NumPy operations for efficient state updates</li>
+      <li>Explicit tracking of particle trajectories and aggregate geometry</li>
+      <li>Frame-by-frame visualization and animation generation</li>
+    </ul>
+
+    <p>
+      The animation above shows particles diffusing through the lattice and
+      progressively attaching to the growing crystal, revealing the characteristic
+      branching morphology of diffusion-limited growth.
+    </p>
+  </section>
+
+  <section>
+    <h2>Key Observations</h2>
+    <ul>
+      <li>Growth is highly anisotropic despite isotropic diffusion</li>
+      <li>Branching structures emerge naturally from stochastic motion</li>
+      <li>Aggregate morphology depends sensitively on particle density and lattice size</li>
+      <li>The resulting crystal exhibits fractal-like geometry</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Why This Matters</h2>
+    <p>
+      Diffusion-limited aggregation provides a minimal yet powerful framework for
+      understanding non-equilibrium structure formation.
+      Variants of this model appear in:
+    </p>
+
+    <ul>
+      <li>Crystal growth and solidification</li>
+      <li>Electrodeposition and corrosion</li>
+      <li>Colloidal physics and soft matter</li>
+      <li>Pattern formation in biological systems</li>
+    </ul>
+
+    <p>
+      This project emphasizes how physically meaningful behavior can emerge from
+      simple probabilistic rules — a recurring theme across physics, materials
+      science, and complex systems.
+    </p>
+  </section>
+
+  <section>
+    <h2>Tools & Techniques</h2>
+    <ul>
+      <li>Python</li>
+      <li>NumPy</li>
+      <li>Matplotlib</li>
+      <li>Monte Carlo methods</li>
+      <li>Stochastic simulation</li>
+    </ul>
+  </section>
+
+  <p class="back-link">
+    ← <a href="/projects">Back to Projects</a>
+  </p>
+</BaseLayout>
