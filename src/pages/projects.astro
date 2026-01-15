@@ -5,8 +5,15 @@ const projects = [
   {
     title: "Brownian Crystallisation",
     category: "Physics",
-    poster: "/images/crystallisation.png",
+    poster: "/images/crystallisation-static.png",
     video: "/images/crystallisation.mp4",
+    link: "/projects/crystallisation"
+  },
+  {
+    title: "Two-Stream Instability Simulation",
+    category: "Physics",
+    thumbnail: "/images/twostream-static.png",
+    preview: "/images/twostream.mp4",
     link: "/projects/plasma"
   }
 ];
@@ -16,19 +23,21 @@ const projects = [
   <section class="projects-container">
     {projects.map(project => (
       <a href={project.link} class="project-card">
-        <video
-          class="project-video"
-          src={project.video}
-          poster={project.poster}
-          muted
-          loop
-          playsinline
-          preload="none"
-        ></video>
+  <div class="project-media">
+    <video
+      class="project-video"
+      src={project.video}
+      poster={project.poster}
+      muted
+      loop
+      playsinline
+      preload="none"
+    ></video>
+  </div>
 
-        <h3 class="project-title">{project.title}</h3>
-        <span class="project-category">{project.category}</span>
-      </a>
+         <h3 class="project-title">{project.title}</h3>
+  <span class="project-category">{project.category}</span>
+</a>
     ))}
   </section>
 </BaseLayout>

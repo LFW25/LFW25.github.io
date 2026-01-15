@@ -155,23 +155,23 @@ code {
 }
 
 /* =========================
-   Project video preview
+   Fixed-size project previews
    ========================= */
 
-/*
-  This is the KEY section.
-  One video element with a poster image.
-  Poster shows when paused.
-  Video replaces it automatically when playing.
-*/
+.project-media {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* change to 4/3 if you prefer */
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  margin-bottom: 0.75rem;
+}
 
 .project-video {
   width: 100%;
-  border-radius: var(--radius-sm);
+  height: 100%;
+  object-fit: cover; /* crops instead of stretching */
   display: block;
-  background: black;
-  margin-bottom: 0.75rem;
-  cursor: pointer;
 }
 
 /* =========================
