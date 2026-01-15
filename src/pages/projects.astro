@@ -15,6 +15,21 @@ const projects = [
     poster: "/images/twostream-static.png",
     video: "/images/twostream.mp4",
     link: "/projects/plasma"
+  },
+{
+    title: "Low-Temperature AFM Instrumentation",
+    category: "Engineering",
+    poster: "/images/afm-static.png",
+    video: "/images/afm.mp4",
+    link: "/projects/afm"
+  },
+
+  {
+    title: "Trust in Science Survey Analysis",
+    category: "Data Science",
+    poster: "/images/trust-static.png",
+    video: "/images/trust.mp4",
+    link: "/projects/trust"
   }
 ];
 ---
@@ -36,7 +51,11 @@ const projects = [
   </div>
 
          <h3 class="project-title">{project.title}</h3>
-  <span class="project-category">{project.category}</span>
+  <span
+  class={`project-category badge badge-${project.category.toLowerCase().replace(/\s+/g, "-")}`}
+>
+  {project.category}
+</span>
 </a>
     ))}
   </section>
