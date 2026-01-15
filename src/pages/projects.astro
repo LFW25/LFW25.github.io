@@ -1,54 +1,64 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// Projects with hover GIFs
 const projects = [
   {
-    title: "Plasma Physics Modeling",
-    description: "First-principles plasma simulations with two-stream instability visualization.",
-    staticImage: "/images/twostream-static.png",
-    gif: "/images/twostream.gif",
-    url: "/projects/plasma"
+    title: "Plasma Two-Stream Instability",
+    category: "Physics",
+    image: "/images/plasma.gif",
+    link: "/projects/plasma",
+    description: "First-principles simulation of kinetic plasma instabilities."
   },
   {
-    title: "Experimental Optomechanics Demo",
-    description: "Optical system for testing mechanical response and sensor integration.",
-    staticImage: "/images/placeholder-static.png",
-    gif: "/images/placeholder.gif",
-    url: "/projects/placeholder"
+    title: "Low-Temperature AFM Instrumentation",
+    category: "Engineering",
+    image: "/images/afm.jpg",
+    link: "/projects/afm",
+    description: "Cryogenic AFM instrumentation and data acquisition systems."
+  },
+  {
+    title: "Trust in Science Survey Analysis",
+    category: "Data Science",
+    image: "/images/data.jpg",
+    link: "/projects/trust",
+    description: "Statistical analysis of public trust in science across demographics."
   }
 ];
 ---
 
 <BaseLayout title="Projects">
   <h1>Projects</h1>
-  <p>Selected technical work demonstrating experimental, computational, and modeling expertise.</p>
+  <p>
+    A selection of physics, engineering, and data science projects spanning
+    research, instrumentation, and quantitative analysis.
+  </p>
 
+  <!-- Filter -->
+  <div class="project-filter">
+    <label for="category-select">Filter by category:</label>
+    <select id="category-select">
+      <option value="all">All</option>
+      <option value="Physics">Physics</option>
+      <option value="Engineering">Engineering</option>
+      <option value="Data Science">Data Science</option>
+    </select>
+  </div>
+
+  <!-- Project Grid -->
   <div class="projects-grid">
     {projects.map(project => (
-      <a href={project.url} class="project-card">
-        <img 
-          src={project.staticImage} 
-          data-gif={project.gif} 
-          alt={project.title} 
-          class="project-image" 
-        />
+      <a
+        href={project.link}
+        class="project-card"
+        data-category={project.category}
+      >
+        <img src={project.image} alt={project.title} />
         <h2>{project.title}</h2>
+        <p class="category">{project.category}</p>
         <p>{project.description}</p>
       </a>
     ))}
   </div>
-</BaseLayout>
 
-<!-- Swap static image to GIF on hover -->
-<script>
-  const cards = document.querySelectorAll('.project-card');
-  cards.forEach(card => {
-    const img = card.querySelector('.project-image');
-    const gif = img.dataset.gif;
-    const staticSrc = img.src;
-
-    card.addEventListener('mouseenter', () => { img.src = gif; });
-    card.addEventListener('mouseleave', () => { img.src = staticSrc; });
-  });
-</script>
+  <script>
+    const select = document.getElementById(
