@@ -18,13 +18,13 @@ const projects = [
     link: "/projects/plasma",
     stack: ["Python", "NumPy", "SciPy", "Matplotlib"]
   },
-{
+  {
     title: "Low-Temperature AFM Instrumentation",
     category: "Engineering",
     poster: "/images/afm-static.png",
     video: "/images/afm.mp4",
     link: "/projects/afm",
-    stack: ["AFM", "Cryogenics", "DAQ", "Python", "Open-Source Control", "Electromechanical Design"],
+    stack: ["AFM", "Cryogenics", "DAQ", "Python", "Open-Source Control", "Electromechanical Design"]
   },
   {
     title: "Trust in Science Survey Analysis",
@@ -41,38 +41,39 @@ const projects = [
   <section class="projects-container">
     {projects.map(project => (
       <a href={project.link} class="project-card">
-  <div class="project-media">
-    <video
-      class="project-video"
-      src={project.video}
-      poster={project.poster}
-      muted
-      loop
-      playsinline
-      preload="none"
-    ></video>
-  </div>
+        <div class="project-media">
+          <video
+            class="project-video"
+            src={project.video}
+            poster={project.poster}
+            muted
+            loop
+            playsinline
+            preload="none"
+          ></video>
+        </div>
 
-         <h3 class="project-title">{project.title}</h3>
-<div class="tag-row">
-  <span class={`badge badge-${project.category.toLowerCase().replace(/\s+/g, "-")}`}>
-    {project.category}
-  </span>
-</div>
+        <h3 class="project-title">{project.title}</h3>
 
-{project.stack?.length > 0 && (
-  <div class="tag-row tag-row-tech">
-    {project.stack.slice(0, 5).map(item => (
-  <span class="tag-pill">{item}</span>
-))}
-{project.stack?.length > 5 && (
-  <span class="tag-pill tag-pill-muted">+ more</span>
-)}
+        <!-- Category badge (only once) -->
+        <div class="tag-row">
+          <span class={`badge badge-${project.category.toLowerCase().replace(/\s+/g, "-")}`}>
+            {project.category}
+          </span>
+        </div>
 
-  </div>
-)}
-
-</a>
+        <!-- Tech stack pills -->
+        {project.stack?.length > 0 && (
+          <div class="tag-row tag-row-tech">
+            {project.stack.slice(0, 5).map(item => (
+              <span class="tag-pill">{item}</span>
+            ))}
+            {project.stack.length > 5 && (
+              <span class="tag-pill tag-pill-muted">+ more</span>
+            )}
+          </div>
+        )}
+      </a>
     ))}
   </section>
 </BaseLayout>

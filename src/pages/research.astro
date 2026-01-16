@@ -57,15 +57,6 @@ const researchAreas = [
   </div>
 )}
 
-
-  <div class="tag-row">
-    {area.tags.map(tag => (
-      <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>
-        {tag}
-      </span>
-    ))}
-  </div>
-
   <p>{area.description}</p>
 
   <details>
