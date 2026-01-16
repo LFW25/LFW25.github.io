@@ -1,0 +1,189 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="CV">
+  <header class="cv-header">
+    <h1>Lily Williams</h1>
+    <p class="cv-subtitle">
+      Research Engineer with a background in physics, instrumentation, and scientific computing
+    </p>
+    <p class="cv-meta">Montréal, QC, Canada</p>
+
+    <p class="cv-links">
+      <a href="https://github.com/LFW25" target="_blank" rel="noreferrer">GitHub</a>
+      ·
+      <a href="/projects">Projects</a>
+      ·
+      <a href="/research">Research</a>
+    </p>
+  </header>
+
+  <section class="cv-section">
+    <h2>Overview</h2>
+    <p>
+      I am a research engineer trained as a physicist, with experience spanning experimental
+      instrumentation, numerical modeling, and data analysis. I enjoy working on technically
+      complex problems where hardware, software, and physical intuition intersect, and where
+      reliability and clarity matter as much as raw performance.
+    </p>
+
+    <p>
+      My background includes building and operating low-temperature experimental systems,
+      developing scientific simulations from first principles, and analyzing real-world data
+      with appropriate statistical rigor. I am particularly drawn to roles where I can contribute
+      to building tools, experiments, or analyses that other people rely on.
+    </p>
+  </section>
+
+  <section class="cv-section">
+    <h2>Technical Focus</h2>
+    <p>
+      My work is grounded in applied physics and research engineering. During my MSc, I focused on
+      low-temperature atomic force microscopy (AFM) instrumentation for silicon nanodevices,
+      gaining hands-on experience with experimental hardware, data acquisition, and measurement
+      workflows in cryogenic environments.
+    </p>
+
+    <p>
+      In parallel, I maintain a strong interest in scientific computing and modeling. I routinely
+      use Python-based workflows for simulation, data analysis, and visualization, and I am
+      comfortable designing custom numerical tools when off-the-shelf solutions are insufficient.
+      Recent projects include stochastic simulations of crystallisation processes, modeling of
+      plasma instabilities, and survey-weighted statistical analysis.
+    </p>
+  </section>
+
+  <section class="cv-section">
+    <h2>Selected Experience</h2>
+
+    <div class="cv-item">
+      <h3>MSc Research — Low-Temperature AFM Instrumentation</h3>
+      <p class="cv-meta">McGill University · 2023–2025</p>
+      <p>
+        As part of my master’s research, I worked on the development and refinement of
+        low-temperature AFM instrumentation for characterizing silicon nanodevices. This involved
+        integrating experimental hardware with data acquisition and analysis pipelines, debugging
+        measurement issues, and iterating on protocols to improve reliability and signal quality.
+      </p>
+      <p>
+        The work emphasized careful experimental design, documentation, and reproducibility — with
+        the goal of building measurement systems that others can trust and extend.
+      </p>
+    </div>
+
+    <div class="cv-item">
+      <h3>Undergraduate Research — Lanthanide-Doped Microcrystals</h3>
+      <p class="cv-meta">Optical materials collaboration · Early undergraduate (2nd year)</p>
+      <p>
+        I contributed to an experimental study of lanthanide-doped Y₂SiO₅ microcrystals, focusing
+        on optical characterization and analysis. This project resulted in a peer-reviewed
+        publication on which I am a second author.
+      </p>
+      <p>
+        This experience provided early exposure to collaborative research, experimental planning,
+        data interpretation, and publication-oriented technical writing.
+      </p>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <h2>Publications</h2>
+    <p>
+      <strong>Lanthanide-doped Y₂SiO₅ microcrystals</strong><br />
+      Optical Materials (Elsevier). Second author.<br />
+      <a
+        href="https://www.sciencedirect.com/science/article/abs/pii/S0925346723006651"
+        target="_blank"
+        rel="noreferrer"
+      >
+        View publication
+      </a>
+    </p>
+  </section>
+
+  <section class="cv-section">
+    <h2>Computational & Data Work</h2>
+    <p>
+      Alongside experimental research, I have substantial experience with computational and
+      data-driven work. I build simulations and analysis pipelines primarily in Python, using
+      numerical and scientific libraries to explore physical systems and real-world datasets.
+    </p>
+
+    <p>
+      This includes Monte Carlo simulations of non-equilibrium systems, numerical modeling of
+      plasma instabilities, and statistically rigorous analysis of large-scale survey data,
+      including weighted sampling and regression across demographic variables.
+    </p>
+  </section>
+
+  <section class="cv-section">
+    <h2>Leadership & Volunteering</h2>
+    <p>
+      I have been deeply involved in volunteer and service roles throughout my graduate studies,
+      particularly in areas related to equity, governance, and the culture of scientific work.
+      These roles have been an important part of how I think about leadership and responsibility
+      in technical environments.
+    </p>
+
+    <p>
+      I served as an Equity, Diversity, and Inclusion (EDI) Officer for the McGill Graduate Physics
+      Student Society, where I worked with other student leaders and faculty to support inclusive
+      practices, improve communication, and advocate for underrepresented students. This role
+      required navigating complex interpersonal and institutional dynamics while remaining
+      pragmatic and solutions-focused.
+    </p>
+
+    <p>
+      In addition, I contributed to the Physics Department’s EDI Committee and served as a
+      representative on the McGill Faculty of Science Council, gaining experience in formal
+      governance, consensus-building, and long-term policy discussions. I have also helped
+      organize the Physics and Ethics Committee, which created space for discussions about the
+      societal impacts and responsibilities of scientific work.
+    </p>
+
+    <p>
+      Through these roles, I developed skills in communication, coordination, and leadership that
+      complement my technical background and are directly transferable to collaborative industry
+      environments.
+    </p>
+  </section>
+
+  <section class="cv-section">
+    <h2>Education</h2>
+    <p>
+      <strong>MSc, Physics</strong><br />
+      McGill University<br />
+      Focus on low-temperature AFM instrumentation and silicon nanodevices for
+      quantum-technology-adjacent applications.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .cv-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .cv-subtitle {
+    color: var(--muted);
+    margin: 0.4rem 0;
+  }
+
+  .cv-meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .cv-links {
+    margin-top: 0.6rem;
+  }
+
+  .cv-section {
+    margin-top: 2.5rem;
+  }
+
+  .cv-item {
+    margin-top: 1.5rem;
+  }
+</style>
