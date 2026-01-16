@@ -63,21 +63,15 @@ const projects = [
 {project.stack?.length > 0 && (
   <div class="tag-row tag-row-tech">
     {project.stack.slice(0, 5).map(item => (
-      <span class="tag-pill">{item}</span>
-    ))}
-    {project.stack.length > 5 && (
+  <span class="tag-pill">{item}</span>
+))}
+{project.stack?.length > 5 && (
   <span class="tag-pill tag-pill-muted">+ more</span>
 )}
 
   </div>
 )}
 
-
-  <span
-  class={`project-category badge badge-${project.category.toLowerCase().replace(/\s+/g, "-")}`}
->
-  {project.category}
-</span>
 </a>
     ))}
   </section>
