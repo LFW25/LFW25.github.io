@@ -1,0 +1,245 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const project = {
+  title: "Low-Temperature AFM Instrumentation",
+  subtitle: "Cryogenic scanning probe workflows for silicon nanodevices (quantum-device-adjacent measurement)",
+  category: "Engineering",
+  tags: ["Engineering", "Physics"],
+  stackShort: ["AFM", "Cryogenics", "DAQ", "Python", "LabVIEW", "Signal Processing"],
+  // If you have media, set these paths. If not, leave as null and the page will just show text.
+  poster: "/images/afm-static.png",
+  video: null,
+};
+---
+
+<BaseLayout title="AFM Instrumentation">
+  <header class="project-header">
+    <h1>{project.title}</h1>
+    <p class="project-subtitle">{project.subtitle}</p>
+
+    <div class="tag-row">
+      {project.tags.map(tag => (
+        <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>{tag}</span>
+      ))}
+    </div>
+
+    <div class="tag-row tag-row-tech">
+      {project.stackShort.map(item => (
+        <span class="tag-pill">{item}</span>
+      ))}
+    </div>
+  </header>
+
+  {project.video && (
+    <section class="project-media-block">
+      <div class="project-media">
+        <video
+          class="project-video"
+          src={project.video}
+          poster={project.poster}
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          controls
+        ></video>
+      </div>
+      <p class="project-caption">
+        Demo clip: representative AFM/measurement workflow footage (poster shown before playback).
+      </p>
+    </section>
+  )}
+
+  <section class="project-section">
+    <h2>Problem</h2>
+    <p>
+      Low-temperature scanning probe experiments are unforgiving: you’re balancing mechanical stability,
+      thermal constraints, low-noise wiring, and measurement throughput, all while making sure the data
+      is interpretable and repeatable. The goal here was not “one-off results,” but a system and workflow
+      that behaves predictably and can be extended.
+    </p>
+  </section>
+
+  <section class="project-section">
+    <h2>What I worked on</h2>
+    <ul class="project-bullets">
+      <li>
+        <strong>Instrument integration:</strong> coordinated cryogenic operation, mechanical constraints,
+        electrical feedthroughs, and low-noise measurement requirements into a single practical workflow.
+      </li>
+      <li>
+        <strong>Mechanical design:</strong> CAD modelling, prototyping via 3D printing, producing precision engineering drawings, and recquisitioning custom parts to upgrade the mechanics of the microscope to increase efficiency, reliability, and productivity.
+      </li>
+      <li>
+        <strong>Electrical wiring:</strong> Rewired (almost) the entire microscope to improve strain relief and signal quality, including soldering dozens of wires down to 34 AWG.
+      </li>
+      <li>
+        <strong>DAQ + control:</strong> built and refined data acquisition/control routines to support stable
+        measurement runs (automation where it improves reliability, not just convenience).
+      </li>
+      <li>
+        <strong>Signal quality and reliability:</strong> troubleshooting and iteration focused on reproducible
+        signal quality, drift/stability awareness, and “why did this fail?” diagnostics.
+      </li>
+      <li>
+        <strong>Analysis pipelines:</strong> Python-based analysis and visualization used to sanity-check
+        measurements quickly and to make iteration cycles faster.
+      </li>
+      <li>
+        <strong>Documentation:</strong> prioritized notes and procedures that make the setup maintainable and
+        usable by others (the difference between “it works” and “it’s a system”).
+      </li>
+    </ul>
+  </section>
+
+  <section class="project-section">
+    <h2>System overview</h2>
+    <div class="card">
+      <h3>Architecture (high level)</h3>
+      <ul class="project-bullets">
+        <li><strong>Environment:</strong> cryogenic operation (low-temperature constraints drive everything)</li>
+        <li><strong>Probe + mechanics:</strong> stability and vibration awareness; careful mechanical choices</li>
+        <li><strong>Electronics:</strong> low-noise wiring/grounding mindset; avoid “mystery coupling”</li>
+        <li><strong>Acquisition:</strong> DAQ/configuration + scripted routines for repeatability</li>
+        <li><strong>Analysis:</strong> fast feedback loop via Python (plots that catch bad runs early)</li>
+      </ul>
+    </div>
+
+    <p class="project-muted">
+      On purpose, this page stays at a “systems engineering” level rather than listing sensitive lab details.
+      The key message is how the work was approached: stability, noise-awareness, automation for reliability,
+      and analysis-driven iteration.
+    </p>
+  </section>
+
+  <section class="project-section">
+    <h2>Technical skills demonstrated</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3>Engineering</h3>
+        <div class="tag-row tag-row-tech">
+          <span class="tag-pill">Instrumentation debugging</span>
+          <span class="tag-pill">DAQ systems</span>
+          <span class="tag-pill">Experimental control</span>
+          <span class="tag-pill">Signal integrity mindset</span>
+          <span class="tag-pill">Documentation</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Computation</h3>
+        <div class="tag-row tag-row-tech">
+          <span class="tag-pill">Python</span>
+          <span class="tag-pill">Data analysis</span>
+          <span class="tag-pill">Visualization</span>
+          <span class="tag-pill">Automation</span>
+          <span class="tag-pill">Reproducible workflows</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <h2>Why this matters (industry framing)</h2>
+    <p>
+      This work is fundamentally about building measurement systems that other people can trust.
+      That translates directly to industry R&amp;D: integrating hardware and software, managing constraints,
+      debugging real systems, and delivering workflows that are repeatable, documented, and maintainable.
+    </p>
+  </section>
+
+  <section class="project-section">
+    <h2>Links</h2>
+    <ul class="project-bullets">
+      <li>
+        <a href="/projects">Back to Projects</a>
+      </li>
+      </ul>
+  </section>
+
+  <p class="back-link">
+    ← <a href="/projects">Back to Projects</a>
+  </p>
+</BaseLayout>
+
+<style>
+  .project-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .project-subtitle {
+    color: var(--muted);
+    margin: 0.4rem 0 0.8rem;
+    max-width: 75ch;
+  }
+
+  .project-section {
+    margin-top: 2.2rem;
+  }
+
+  .project-bullets {
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .project-bullets li {
+    margin: 0.5rem 0;
+  }
+
+  .project-muted {
+    color: var(--muted);
+    margin-top: 0.9rem;
+    max-width: 80ch;
+  }
+
+  .project-media-block {
+    margin-top: 1.2rem;
+  }
+
+  .project-caption {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0.6rem 0 0;
+  }
+
+  /* Reuse your existing media sizing rules if present;
+     these are safe defaults if the global ones change. */
+  .project-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+  }
+
+  .project-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+
+  .card h3 {
+    margin-top: 0;
+  }
+
+  .back-link {
+    margin-top: 2.5rem;
+    font-weight: 600;
+  }
+</style>

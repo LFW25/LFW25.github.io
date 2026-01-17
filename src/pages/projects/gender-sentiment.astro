@@ -1,0 +1,234 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const project = {
+  title: "Gender Sentiment in Healthcare",
+  subtitle:
+    "Survey-weighted analysis of trust and attitudes toward science/healthcare across gender, education, politics, and religiosity",
+  tags: ["Data Science"],
+  stackShort: ["Python", "pandas", "Survey Weights", "Regression", "Visualization", "Reproducibility"],
+  // Optional media (set these to real files if you have them; set video to null if not)
+  poster: "/images/gender-sentiment-wv7-static.png",
+  video: null,
+  links: [
+    // { label: "Repository", href: "https://github.com/..." },
+    // { label: "Notebook", href: "https://github.com/.../blob/main/..." },
+  ],
+};
+---
+
+<BaseLayout title="Gender Sentiment in Healthcare">
+  <header class="project-header">
+    <h1>{project.title}</h1>
+    <p class="project-subtitle">{project.subtitle}</p>
+
+    <div class="tag-row">
+      {project.tags.map(tag => (
+        <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>{tag}</span>
+      ))}
+    </div>
+
+    <div class="tag-row tag-row-tech">
+      {project.stackShort.map(item => (
+        <span class="tag-pill">{item}</span>
+      ))}
+    </div>
+  </header>
+
+  {project.video && (
+    <section class="project-media-block">
+      <div class="project-media">
+        <video
+          class="project-video"
+          src={project.video}
+          poster={project.poster}
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          controls
+        ></video>
+      </div>
+      <p class="project-caption">
+        Optional: short clip/screen recording of results (plots, dashboards, or workflow). Poster shows before playback.
+      </p>
+    </section>
+  )}
+
+  <section class="project-section">
+    <h2>Motivation</h2>
+    <p>
+      Public trust in science and healthcare shapes outcomes: people’s medical decisions, responses to public health guidance,
+      and interpretation of uncertainty and risk. I wanted to explore how attitudes related to science/healthcare vary across
+      gender, and how those relationships interact with education, political orientation, and religiosity — while being careful
+      about the statistical pitfalls common in large survey datasets.
+    </p>
+  </section>
+
+  <section class="project-section">
+    <h2>What I analyzed</h2>
+    <p>
+      The analysis focuses on trust/attitude measures (Likert-style items) and compares distributions across groups, then examines
+      correlations and modeled relationships with key demographic predictors. The goal is not to “win an argument” with a plot,
+      but to produce an interpretable, reproducible workflow that a careful reader could audit.
+    </p>
+
+    <div class="card">
+      <h3>Core comparisons</h3>
+      <ul class="project-bullets">
+        <li><strong>Gender × trust:</strong> how trust/attitudes differ by gender</li>
+        <li><strong>Education × trust:</strong> association between education level and trust measures</li>
+        <li><strong>Politics × trust:</strong> association between political orientation and trust measures</li>
+        <li><strong>Religiosity × trust:</strong> association between religiosity and trust measures</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <h2>Methodology</h2>
+    <p>
+      Survey analysis is easy to get wrong. This project treats methodology as a first-class concern: consistent recoding of
+      numeric survey responses, explicit handling of missing values, and the use of survey weights when comparing groups so that
+      summary statistics better represent the target population.
+    </p>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>Data preparation</h3>
+        <div class="tag-row tag-row-tech">
+          <span class="tag-pill">Cleaning & recoding</span>
+          <span class="tag-pill">Missingness handling</span>
+          <span class="tag-pill">Reverse-coding</span>
+          <span class="tag-pill">Consistent scales</span>
+        </div>
+        <ul class="project-bullets">
+          <li>Converted numeric-coded survey columns safely (coercing non-responses to missing)</li>
+          <li>Reverse-coded negatively worded items to keep interpretation consistent</li>
+          <li>Kept analysis scoped to interpretable comparisons rather than overfitting</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Analysis & reporting</h3>
+        <div class="tag-row tag-row-tech">
+          <span class="tag-pill">Survey weights</span>
+          <span class="tag-pill">Group comparisons</span>
+          <span class="tag-pill">Regression</span>
+          <span class="tag-pill">Visualization</span>
+        </div>
+        <ul class="project-bullets">
+          <li>Used weights for group summaries where appropriate</li>
+          <li>Focused on effect sizes and directionality, not just “significance”</li>
+          <li>Designed plots to be readable and honest about uncertainty</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <h2>Challenges & debugging</h2>
+    <p>
+      A recurring practical challenge in survey analysis is reshaping and aggregating data cleanly when columns contain mixed
+      types or duplicated labels, and when missingness is encoded inconsistently across variables. Debugging involved making
+      transformations explicit and validating intermediate outputs (counts, distributions, and spot-checks) before producing plots.
+    </p>
+  </section>
+
+  <section class="project-section">
+    <h2>What this demonstrates (industry framing)</h2>
+    <p>
+      This project demonstrates end-to-end data analysis skills on messy, real-world data: defining a scope, cleaning and recoding,
+      choosing methods that match the data-generating process (including weighting), and communicating results in a way that avoids
+      overclaiming. These skills transfer directly to product analytics, applied research, policy-facing data work, and R&amp;D teams
+      working with observational datasets.
+    </p>
+  </section>
+
+  {project.links?.length > 0 && (
+    <section class="project-section">
+      <h2>Links</h2>
+      <ul class="project-bullets">
+        {project.links.map(l => (
+          <li><a href={l.href} target="_blank" rel="noreferrer">{l.label}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <p class="back-link">
+    ← <a href="/projects">Back to Projects</a>
+  </p>
+</BaseLayout>
+
+<style>
+  .project-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .project-subtitle {
+    color: var(--muted);
+    margin: 0.4rem 0 0.8rem;
+    max-width: 75ch;
+  }
+
+  .project-section {
+    margin-top: 2.2rem;
+  }
+
+  .project-bullets {
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .project-bullets li {
+    margin: 0.5rem 0;
+  }
+
+  .project-media-block {
+    margin-top: 1.2rem;
+  }
+
+  .project-caption {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0.6rem 0 0;
+  }
+
+  .project-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+  }
+
+  .project-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+
+  .card h3 {
+    margin-top: 0;
+  }
+
+  .back-link {
+    margin-top: 2.5rem;
+    font-weight: 600;
+  }
+</style>
