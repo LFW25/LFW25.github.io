@@ -13,7 +13,7 @@ const { title } = Astro.props;
   <body>
 <nav class="site-nav">
   <div class="nav-inner">
-    <a href="/" class="nav-brand">Lily Williams</a>
+    <a href="/" class="nav-brand">Lily Francesca Williams</a>
 
     <ul class="nav-links">
       <li><a href="/projects">Projects</a></li>
@@ -21,37 +21,10 @@ const { title } = Astro.props;
       <li><a href="/cv">CV</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
-
-    <button class="compact-toggle" type="button" id="compactToggle" aria-pressed="false">
-      Compact view
-    </button>
   </div>
 </nav>
     <main>
       <slot />
     </main>
-<script>
-  const KEY = "lw_compact_mode";
-  const btn = document.getElementById("compactToggle");
-
-  function setCompactMode(enabled) {
-    document.body.classList.toggle("compact-mode", enabled);
-    btn?.setAttribute("aria-pressed", String(enabled));
-    btn.textContent = enabled ? "Comfort view" : "Compact view";
-    localStorage.setItem(KEY, enabled ? "1" : "0");
-  }
-
-  // Load saved preference
-  const saved = localStorage.getItem(KEY);
-  const enabled = saved === "1";
-  if (enabled) setCompactMode(true);
-
-  // Toggle on click
-  btn?.addEventListener("click", () => {
-    const nowEnabled = !document.body.classList.contains("compact-mode");
-    setCompactMode(nowEnabled);
-  });
-</script>
-
   </body>
 </html>
