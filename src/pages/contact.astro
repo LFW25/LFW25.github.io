@@ -1,0 +1,173 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Contact">
+  <h1>Contact</h1>
+
+  <p>
+    I’m happy to chat about research engineering, instrumentation, scientific computing, and
+    data-driven work — especially projects that combine careful measurement with good analysis.
+  </p>
+
+  <section class="contact-card">
+    <h2>Best ways to reach me</h2>
+
+    <ul class="contact-list">
+      <li>
+        <strong>Email:</strong>
+        <a href="mailto:YOUR_EMAIL_HERE">YOUR_EMAIL_HERE</a>
+        <span class="contact-note">(fastest)</span>
+      </li>
+
+      <li>
+        <strong>GitHub:</strong>
+        <a href="https://github.com/LFW25" target="_blank" rel="noreferrer">github.com/LFW25</a>
+      </li>
+
+      <!-- Optional: add LinkedIn if you want -->
+      <!--
+      <li>
+        <strong>LinkedIn:</strong>
+        <a href="https://www.linkedin.com/in/YOUR_HANDLE" target="_blank" rel="noreferrer">
+          linkedin.com/in/YOUR_HANDLE
+        </a>
+      </li>
+      -->
+    </ul>
+  </section>
+
+  <section>
+    <h2>What I’m interested in</h2>
+    <div class="tag-row tag-row-tech">
+      <span class="tag-pill">Instrumentation & measurement</span>
+      <span class="tag-pill">Cryogenic systems</span>
+      <span class="tag-pill">Scientific computing</span>
+      <span class="tag-pill">Data analysis</span>
+      <span class="tag-pill">Sustainability-relevant problems</span>
+    </div>
+
+    <p class="contact-muted">
+      If you’re reaching out about a role or collaboration, it helps to include a link to the
+      job posting or a short description of the project, plus any relevant timelines.
+    </p>
+  </section>
+
+  <section class="contact-card">
+    <h2>Quick message</h2>
+
+    <p class="contact-muted">
+      This form opens your email client (works on GitHub Pages). If you prefer, just email me
+      directly.
+    </p>
+
+    <form
+      class="contact-form"
+      action="mailto:YOUR_EMAIL_HERE"
+      method="post"
+      enctype="text/plain"
+    >
+      <label>
+        Your name
+        <input type="text" name="name" placeholder="Name" />
+      </label>
+
+      <label>
+        Your email
+        <input type="email" name="email" placeholder="you@example.com" />
+      </label>
+
+      <label>
+        Message
+        <textarea
+          name="message"
+          rows="6"
+          placeholder="A quick note about what you’re working on / what you’d like to discuss…"
+        ></textarea>
+      </label>
+
+      <button type="submit" class="contact-button">Open email draft</button>
+    </form>
+  </section>
+
+  <p class="back-link">
+    ← <a href="/">Back to Home</a>
+  </p>
+</BaseLayout>
+
+<style>
+  .contact-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .contact-list {
+    margin: 0.75rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .contact-note {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-left: 0.4rem;
+  }
+
+  .contact-muted {
+    color: var(--muted);
+    max-width: 75ch;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1rem;
+  }
+
+  .contact-form label {
+    display: grid;
+    gap: 0.35rem;
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    font: inherit;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: 2px solid rgba(93, 169, 255, 0.35);
+    outline-offset: 2px;
+  }
+
+  .contact-button {
+    justify-self: start;
+    background: rgba(93, 169, 255, 0.18);
+    border: 1px solid rgba(93, 169, 255, 0.35);
+    color: var(--fg);
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    font-weight: 650;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(93, 169, 255, 0.6);
+  }
+
+  .back-link {
+    margin-top: 2.5rem;
+    font-weight: 600;
+  }
+</style>
