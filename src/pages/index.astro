@@ -1,26 +1,281 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const featured = {
+  role: {
+    title: "Current role",
+    headline: "Nanodevice Instrumentation Researcher & Materials Physicist",
+    sub: "McGill University · Montréal, QC",
+    image: "/images/afm.png",
+    link: "/cv",
+    stack: ["Cryogenics", "AFM", "DAQ", "Python", "Instrumentation"]
+  },
+
+  project: {
+    title: "Featured project",
+    headline: "Trust in Science & Healthcare",
+    sub: "Survey-weighted analysis of trust across gender, education, politics, and religiosity",
+    image: "/images/trust-static.png",
+    link: "/projects/trust",
+    stack: ["Python", "pandas", "Survey Weights", "Regression", "Visualization"]
+  },
+
+  research: {
+    title: "Featured research",
+    headline: "Lanthanide-Doped Microcrystals",
+    sub: "Optical materials & spectroscopy · published research (2nd author)",
+    image: "/images/yso-static.jpg",
+    link: "/research",
+    stack: ["Spectroscopy", "Photoluminescence", "XRD", "SEM", "Materials"]
+  }
+};
 ---
 
 <BaseLayout title="Home">
-  <h1>Lily Williams</h1>
-  <h2>Physicist & Data Scientist</h2>
+  <header class="home-hero">
+    <img
+      class="home-avatar"
+      src="/images/profile.jpg"
+      alt="Portrait of Lily Williams"
+      loading="eager"
+      decoding="async"
+    />
 
-  <p>
-    I build quantitative models and experimental systems for physical problems,
-    with a focus on first-principles simulation, scientific computing, and instrumentation.
-  </p>
+    <div class="home-hero-text">
+      <h1>Lily Williams</h1>
+      <p class="home-tagline">Research Engineer · Applied Physicist · Data Scientist</p>
+      <p class="home-intro">
+        I love working with data and finding patterns, building systems people can rely on,
+        and learning new domains deeply enough to answer real questions. My work spans
+        instrumentation, scientific computing, and careful analysis.
+      </p>
 
-  <h3>What I work on</h3>
-  <ul>
-    <li>Novel experimental instrumentation and data acquisition</li>
-    <li>Optical and electromechanical systems</li>
-    <li>Scientific software development and numerical simulation</li>
-    <li>First-principles modeling of physical systems (e.g. plasma instabilities, crystal growth)</li>
-    <li>Quantitative methods for sustainability-relevant problems</li>
-  </ul>
+      <div class="home-cta">
+        <a class="btn" href="/projects">Explore Projects</a>
+        <a class="btn btn-ghost" href="/cv">CV</a>
+        <a class="btn btn-ghost" href="/research">Research</a>
+      </div>
+    </div>
+  </header>
 
-  <p>
-    See the <a href="/projects">Projects</a> page for selected technical work.
-  </p>
+  <section class="home-grid">
+    <!-- Card 1: Current role -> CV -->
+    <a href={featured.role.link} class="feature-card">
+      <div class="feature-media">
+        <img
+          class="feature-img"
+          src={featured.role.image}
+          alt={`${featured.role.headline} preview`}
+          loading="lazy"
+        />
+      </div>
+
+      <div class="feature-body">
+        <p class="feature-eyebrow">{featured.role.title}</p>
+        <h3 class="feature-title">{featured.role.headline}</h3>
+        <p class="feature-sub">{featured.role.sub}</p>
+
+        <div class="tag-row tag-row-tech">
+          {featured.role.stack.map(item => (
+            <span class="tag-pill">{item}</span>
+          ))}
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 2: Featured project -> Trust in Science -->
+    <a href={featured.project.link} class="feature-card">
+      <div class="feature-media">
+        <img
+          class="feature-img"
+          src={featured.project.image}
+          alt={`${featured.project.headline} preview`}
+          loading="lazy"
+        />
+      </div>
+
+      <div class="feature-body">
+        <p class="feature-eyebrow">{featured.project.title}</p>
+        <h3 class="feature-title">{featured.project.headline}</h3>
+        <p class="feature-sub">{featured.project.sub}</p>
+
+        <div class="tag-row tag-row-tech">
+          {featured.project.stack.map(item => (
+            <span class="tag-pill">{item}</span>
+          ))}
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 3: Featured research -> Research page -->
+    <a href={featured.research.link} class="feature-card">
+      <div class="feature-media">
+        <img
+          class="feature-img"
+          src={featured.research.image}
+          alt={`${featured.research.headline} preview`}
+          loading="lazy"
+        />
+      </div>
+
+      <div class="feature-body">
+        <p class="feature-eyebrow">{featured.research.title}</p>
+        <h3 class="feature-title">{featured.research.headline}</h3>
+        <p class="feature-sub">{featured.research.sub}</p>
+
+        <div class="tag-row tag-row-tech">
+          {featured.research.stack.map(item => (
+            <span class="tag-pill">{item}</span>
+          ))}
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <style>
+    /* =========================
+       Hero
+       ========================= */
+
+    .home-hero {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 1.75rem;
+      align-items: center;
+      margin-bottom: 2.75rem;
+    }
+
+    .home-avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .home-tagline {
+      color: var(--muted);
+      margin: 0.35rem 0 0.9rem;
+      font-weight: 600;
+    }
+
+    .home-intro {
+      max-width: 75ch;
+      margin: 0.6rem 0 0;
+    }
+
+    .home-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
+    }
+
+    /* =========================
+       Buttons
+       ========================= */
+
+    .btn {
+      display: inline-block;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(93, 169, 255, 0.35);
+      background: rgba(93, 169, 255, 0.18);
+      color: var(--fg);
+      font-weight: 650;
+      text-decoration: none;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(93, 169, 255, 0.6);
+      text-decoration: none;
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+    }
+
+    /* =========================
+       Featured grid
+       ========================= */
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.6rem;
+      margin-top: 1.6rem;
+    }
+
+    .feature-card {
+      display: block;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .feature-media {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .feature-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .feature-body {
+      padding: 1rem;
+    }
+
+    .feature-eyebrow {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin: 0 0 0.35rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .feature-title {
+      color: var(--fg);
+      margin: 0;
+    }
+
+    .feature-sub {
+      color: var(--muted);
+      margin: 0.45rem 0 0.8rem;
+      max-width: 65ch;
+    }
+
+    /* =========================
+       Responsive
+       ========================= */
+
+    @media (max-width: 560px) {
+      .home-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .home-avatar {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  </style>
 </BaseLayout>
