@@ -7,8 +7,8 @@
   --fg: #e6e6eb;
   --muted: #a1a1b3;
 
-  --accent: #5da9ff;
-  --accent-soft: rgba(93, 169, 255, 0.15);
+  --accent: #1f77b4;              /* matplotlib dodgerblue */
+  --accent-soft: rgba(31, 119, 180, 0.15);
 
   --card-bg: #171923;
   --border: rgba(255, 255, 255, 0.08);
@@ -329,9 +329,11 @@ code {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
+  background: rgba(31, 119, 180, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(31, 119, 180, 0.35);
 }
+
 
 .nav-inner {
   max-width: 1100px;
@@ -345,8 +347,9 @@ code {
 .nav-brand {
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--fg);
+  color: #fff;
 }
+
 
 .nav-links {
   list-style: none;
@@ -363,10 +366,11 @@ code {
 .nav-links a {
   position: relative;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 450;
   padding-bottom: 0.2rem;
   transition: color 0.2s ease;
 }
+
 
 .nav-links a::after {
   content: "";
@@ -375,14 +379,14 @@ code {
   bottom: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--accent);
+  background-color: rgba(255, 255, 255, 0.9);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.25s ease;
 }
 
 .nav-links a:hover {
-  color: var(--fg);
+  color: #fff;
   text-decoration: none;
 }
 
@@ -393,7 +397,7 @@ code {
 
 /* Active page stays underlined */
 .nav-links a[aria-current="page"] {
-  color: var(--accent);
+  color: #fff;
 }
 
 .nav-links a[aria-current="page"]::after {
