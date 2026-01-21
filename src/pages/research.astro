@@ -71,13 +71,16 @@ const researchAreas = [
       <div class="research-card">
   <h2>{area.title}</h2>
 
+<h3 class="project-title">{project.title}</h3>
+
 <div class="tag-row">
-  {area.tags.map(tag => (
-    <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>
-      {tag}
+  {(Array.isArray(project.category) ? project.category : [project.category]).map(cat => (
+    <span class={`badge badge-${String(cat).toLowerCase().replace(/\s+/g, "-")}`}>
+      {cat}
     </span>
   ))}
 </div>
+
 
 {area.stack?.length > 0 && (
   <div class="tag-row tag-row-tech">
