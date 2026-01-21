@@ -1,6 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+const slugify = (v) =>
+  String(v ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-");
+
+const asArray = (v) => (Array.isArray(v) ? v : [v]).filter(Boolean);
+
 const projects = [
   {
     title: "Brownian Crystallisation",
@@ -8,7 +16,7 @@ const projects = [
     poster: "/images/crystallisation-static.png",
     video: "/images/crystallisation.mp4",
     link: "/projects/crystallisation",
-    stack: ["Python", "NumPy", "Matplotlib", "Monte Carlo"]
+    stack: ["Python", "NumPy", "Matplotlib", "Monte Carlo"],
   },
   {
     title: "Two-Stream Instability Simulation",
@@ -16,7 +24,7 @@ const projects = [
     poster: "/images/twostream-static.png",
     video: "/images/twostream.mp4",
     link: "/projects/plasma",
-    stack: ["Python", "NumPy", "SciPy", "Matplotlib"]
+    stack: ["Python", "NumPy", "SciPy", "Matplotlib"],
   },
   {
     title: "Low-Temperature AFM Instrumentation",
@@ -24,7 +32,14 @@ const projects = [
     poster: "/images/afm.png",
     video: null,
     link: "/projects/afm",
-    stack: ["AFM", "Cryogenics", "DAQ", "Python", "Open-Source Control", "Electromechanical Design"]
+    stack: [
+      "AFM",
+      "Cryogenics",
+      "DAQ",
+      "Python",
+      "Open-Source Control",
+      "Electromechanical Design",
+    ],
   },
   {
     title: "Investigating the Gender Differences in Trust in Science",
@@ -32,40 +47,49 @@ const projects = [
     poster: "/images/gender-sentiment-wv7-static.png",
     video: "/images/trust.mp4",
     link: "/projects/trust",
-    stack: ["Statistical Analysis", "Survey Data", "Python", "pandas", "Regression"]
-  }
+    stack: ["Statistical Analysis", "Survey Data", "Python", "pandas", "Regression"],
+  },
 ];
 ---
 
 <BaseLayout title="Projects">
   <section class="projects-container">
-    {projects.map(project => (
+    {projects.map((project) => (
       <a href={project.link} class="project-card">
         <div class="project-media">
-          <video
-            class="project-video"
-            src={project.video}
-            poster={project.poster}
-            muted
-            loop
-            playsinline
-            preload="none"
-          ></video>
+          {project.video ? (
+            <video
+              class="project-video"
+              src={project.video}
+              poster={project.poster}
+              muted
+              loop
+              playsinline
+              preload="none"
+            ></video>
+          ) : (
+            <img
+              class="project-image"
+              src={project.poster}
+              alt={`${project.title} preview`}
+              loading="lazy"
+            />
+          )}
         </div>
 
         <h3 class="project-title">{project.title}</h3>
 
-        <!-- Category badge (only once) -->
+        {/* Category badges (supports string or array) */}
         <div class="tag-row">
-          <span class={`badge badge-${slugify(asArray(project.category)[0].replace(/\s+/g, "-")}`}>
-            {project.category}
-          </span>
+          {asArray(project.category).map((cat) => (
+            <span class={`badge badge-${slugify(cat)}`}>{cat}</span>
+          ))}
         </div>
 
-        <!-- Tech stack pills -->
+        {/* Tech stack pills */}
         {project.stack?.length > 0 && (
           <div class="tag-row tag-row-tech">
-            {project.stack.slice(0, 5).map(item => (
+            {project.stack.slice(0, 5).map((item) => (
               <span class="tag-pill">{item}</span>
             ))}
             {project.stack.length > 5 && (
@@ -79,7 +103,7 @@ const projects = [
 </BaseLayout>
 
 <script>
-  document.querySelectorAll(".project-video").forEach(video => {
+  document.querySelectorAll(".project-video").forEach((video) => {
     video.addEventListener("mouseenter", () => {
       video.currentTime = 0;
       video.play();
@@ -91,3 +115,13 @@ const projects = [
     });
   });
 </script>
+
+<style>
+  /* Keep media consistent whether it's video or image */
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>
