@@ -57,7 +57,7 @@ const projects = [
 
         <!-- Category badge (only once) -->
         <div class="tag-row">
-          <span class={`badge badge-${project.category.toLowerCase().replace(/\s+/g, "-")}`}>
+          <span class={`badge badge-${slugify(asArray(project.category)[0].replace(/\s+/g, "-")}`}>
             {project.category}
           </span>
         </div>
