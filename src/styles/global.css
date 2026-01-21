@@ -193,10 +193,11 @@ code {
   border: 1px solid rgba(72, 187, 120, 0.35);
 }
 
+/* Medicine - purple */
 .badge-medicine {
-  background: rgba(56, 178, 172, 0.15);
-  color: #38b2ac;
-  border: 1px solid rgba(56, 178, 172, 0.35);
+  background: rgba(180, 136, 255, 0.15);
+  color: #b488ff;
+  border: 1px solid rgba(180, 136, 255, 0.35);
 }
 
 .badge-sustainability {
