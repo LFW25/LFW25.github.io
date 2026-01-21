@@ -134,21 +134,6 @@ const project = {
     </p>
   </section>
 
-  {project.links?.length > 0 && (
-    <section class="project-section">
-      <h2>Links</h2>
-      <ul class="project-bullets">
-        {project.links.map((l) => (
-          <li>
-            <a href={l.href} target="_blank" rel="noreferrer">
-              {l.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
   <p class="back-link">← <a href="/projects">Back to Projects</a></p>
 </BaseLayout>
 
