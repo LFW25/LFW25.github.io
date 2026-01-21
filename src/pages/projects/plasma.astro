@@ -3,42 +3,142 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const project = {
   title: "Plasma Physics Modeling",
-  problem: "Non-equilibrium plasma systems exhibit instabilities that can impact both experimental results and device performance. Understanding these instabilities is critical for predictive modeling in laboratory and applied plasma systems.",
-  approach: "I use first-principles kinetic models to simulate plasma behavior, focusing on the two-stream instability as a representative case. The goal is to bridge theoretical understanding and practical system behavior with reproducible, high-fidelity simulations.",
-  implementation: [
-    "Python-based numerical simulation using optimized solvers",
-    "Modular code structure allowing extension to other plasma phenomena",
-    "Visualizations of instability growth and phase-space dynamics",
-    "Hosted on GitHub for transparency and reproducibility (https://github.com/LFW25/twostream-optimized)"
+  subtitle:
+    "First-principles kinetic simulation of non-equilibrium instabilities (two-stream as a reference case).",
+  tags: ["Physics", "Simulation"],
+  stackShort: ["Python", "Numerical Methods", "Phase Space", "Visualization", "Reproducibility"],
+  poster: "/images/twostream.gif",
+  video: null,
+  links: [
+    { label: "Repository", href: "https://github.com/LFW25/twostream-optimized" },
   ],
-  gif: "/images/twostream.gif",
-  outcome: "Produces accurate simulations that reproduce expected instability behavior. Future work includes building a web-based interface for real-time parameter manipulation and visualization."
 };
 ---
 
-<BaseLayout title={project.title}>
-  <h1>{project.title}</h1>
+<BaseLayout title="Plasma Modeling">
+  <header class="project-header">
+    <h1>{project.title}</h1>
+    <p class="project-subtitle">{project.subtitle}</p>
 
-  <h2>Problem</h2>
-  <p>{project.problem}</p>
+    <div class="tag-row">
+      {project.tags.map((tag) => (
+        <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>{tag}</span>
+      ))}
+    </div>
 
-  <h2>Approach</h2>
-  <p>{project.approach}</p>
+    <div class="tag-row tag-row-tech">
+      {project.stackShort.map((item) => (
+        <span class="tag-pill">{item}</span>
+      ))}
+    </div>
+  </header>
 
-  <h2>Implementation</h2>
-  <ul>
-    {project.implementation.map(item => <li>{item}</li>)}
-  </ul>
+  {project.video && (
+    <section class="project-media-block">
+      <div class="project-media">
+        <video
+          class="project-video"
+          src={project.video}
+          poster={project.poster}
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          controls
+        ></video>
+      </div>
+      <p class="project-caption">Demo clip of simulation output (poster shown before playback).</p>
+    </section>
+  )}
 
-{project.gif && (
-  <figure>
-    <img src="../../images/twostream.gif" alt={project.title} style="max-width:100%; border-radius:8px;" />
-    <figcaption>{project.title} visualization</figcaption>
-  </figure>
-)}
+  {!project.video && project.poster && (
+    <section class="project-media-block">
+      <figure class="project-figure">
+        <img class="project-image" src={project.poster} alt={project.title} loading="lazy" />
+        <figcaption class="project-caption">
+          Two-stream instability: phase-space structure and growth emerging from kinetic evolution.
+        </figcaption>
+      </figure>
+    </section>
+  )}
 
-  <h2>Outcome & Next Steps</h2>
-  <p>{project.outcome}</p>
+  <section class="project-section">
+    <h2>Problem</h2>
+    <p>
+      Non-equilibrium plasmas can exhibit instabilities that strongly affect experiments and device performance.
+      To model these systems predictively, you need simulations that reproduce expected behavior, expose assumptions,
+      and make it easy to verify intermediate steps.
+    </p>
+  </section>
 
-  <p>Back to <a href="/projects">Projects</a>.</p>
+  <section class="project-section">
+    <h2>Approach</h2>
+    <p>
+      I focus on first-principles kinetic modeling, using the two-stream instability as a representative system.
+      The goal is to bridge the analytic “what should happen?” intuition with numerical results you can inspect,
+      reproduce, and extend.
+    </p>
+
+    <div class="card">
+      <h3>What’s in scope</h3>
+      <ul class="project-bullets">
+        <li><strong>Kinetic simulation:</strong> dynamics resolved in phase space</li>
+        <li><strong>Instability behavior:</strong> growth and saturation features</li>
+        <li><strong>Reproducibility:</strong> parameters and outputs organized for iteration</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <h2>Implementation</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3>Simulation design</h3>
+        <ul class="project-bullets">
+          <li>Python-based numerical simulation with optimized solvers</li>
+          <li>Modular structure designed to extend to other plasma phenomena</li>
+          <li>Clear outputs for debugging and sanity-checking expected regimes</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Outputs</h3>
+        <ul class="project-bullets">
+          <li>Visualizations of instability growth and phase-space dynamics</li>
+          <li>Runs organized for parameter exploration and comparison</li>
+          <li>Code hosted publicly for transparency and reproducibility</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <h2>Outcome & next steps</h2>
+    <p>
+      The simulation reproduces expected qualitative instability behavior and provides a foundation for expanding
+      the model set. A natural next step is an interactive interface for real-time parameter manipulation and
+      visualization (useful both for exploration and communication).
+    </p>
+  </section>
+
+  {project.links?.length > 0 && (
+    <section class="project-section">
+      <h2>Links</h2>
+      <ul class="project-bullets">
+        {project.links.map((l) => (
+          <li>
+            <a href={l.href} target="_blank" rel="noreferrer">
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <p class="back-link">← <a href="/projects">Back to Projects</a></p>
 </BaseLayout>
+
+<style>
+
+</style>

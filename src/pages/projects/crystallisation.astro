@@ -1,113 +1,157 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const project = {
+  title: "Brownian Crystallisation (Diffusion-Limited Aggregation)",
+  subtitle:
+    "Stochastic simulation of crystallisation via Brownian motion and irreversible aggregation (DLA).",
+  tags: ["Physics", "Simulation"],
+  stackShort: ["Python", "NumPy", "Matplotlib", "Monte Carlo", "Stochastic Processes"],
+  poster: "/images/crystallisation.gif",
+  video: null,
+  links: [
+    // { label: "Repository", href: "https://github.com/..." },
+    // { label: "Write-up", href: "https://..." },
+  ],
+};
 ---
 
 <BaseLayout title="Brownian Crystallisation">
-  <h1>Brownian Crystallisation (Diffusion-Limited Aggregation)</h1>
+  <header class="project-header">
+    <h1>{project.title}</h1>
+    <p class="project-subtitle">{project.subtitle}</p>
 
-  <p class="project-subtitle">
-    Stochastic simulation of crystallisation via Brownian motion and irreversible aggregation.
-  </p>
+    <div class="tag-row">
+      {project.tags.map((tag) => (
+        <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>{tag}</span>
+      ))}
+    </div>
 
-  <img
-    src="/images/crystallisation.gif"
-    alt="Brownian crystallisation via diffusion-limited aggregation"
-    class="project-hero"
-  />
+    <div class="tag-row tag-row-tech">
+      {project.stackShort.map((item) => (
+        <span class="tag-pill">{item}</span>
+      ))}
+    </div>
+  </header>
 
-  <section>
+  {project.video && (
+    <section class="project-media-block">
+      <div class="project-media">
+        <video
+          class="project-video"
+          src={project.video}
+          poster={project.poster}
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          controls
+        ></video>
+      </div>
+      <p class="project-caption">Demo clip of the simulation output (poster shown before playback).</p>
+    </section>
+  )}
+
+  {!project.video && project.poster && (
+    <section class="project-media-block">
+      <figure class="project-figure">
+        <img class="project-image" src={project.poster} alt={project.title} loading="lazy" />
+        <figcaption class="project-caption">
+          Diffusion-limited aggregation: particles diffuse and stick upon contact, producing branching growth.
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
+  <section class="project-section">
     <h2>Overview</h2>
     <p>
       This project investigates <strong>Brownian crystallisation</strong> using a
-      <strong>diffusion-limited aggregation (DLA)</strong> model.
-      Particles undergo random walks on a two-dimensional lattice and irreversibly
-      bind upon contact with a growing solid cluster, forming emergent crystalline
-      and fractal structures.
+      <strong> diffusion-limited aggregation (DLA)</strong> model. Particles undergo random walks on a 2D lattice and
+      irreversibly bind on contact with a growing cluster, producing emergent crystalline and fractal-like structures.
     </p>
-
     <p>
-      The simulation explores how simple stochastic rules at the microscopic level
-      lead to complex macroscopic structure — a central theme in statistical physics
-      and non-equilibrium systems.
+      The goal is to show how simple stochastic rules at the microscopic level generate complex macroscopic morphology.
     </p>
   </section>
 
-  <section>
-    <h2>Physical Model</h2>
-    <ul>
-      <li>Particles perform discrete two-dimensional Brownian motion</li>
-      <li>Motion occurs on a finite square lattice</li>
-      <li>Particles stick irreversibly upon first contact with the aggregate</li>
-      <li>The aggregate acts as a growing absorbing boundary</li>
-    </ul>
+  <section class="project-section">
+    <h2>Physical model</h2>
+    <div class="card">
+      <h3>Core rules</h3>
+      <ul class="project-bullets">
+        <li>Particles perform discrete 2D Brownian motion (random walk)</li>
+        <li>Motion occurs on a finite square lattice</li>
+        <li>Particles stick irreversibly upon first contact with the aggregate</li>
+        <li>The aggregate acts as a growing absorbing boundary</li>
+      </ul>
+    </div>
 
-    <p>
-      This model captures the essential physics of crystallisation and pattern
-      formation in diffusion-dominated regimes, relevant to crystal growth,
-      electrochemical deposition, and colloidal aggregation.
+    <p class="project-muted">
+      DLA is a minimal model for diffusion-dominated pattern formation, relevant to crystal growth, electrodeposition,
+      corrosion, and colloidal aggregation.
     </p>
   </section>
 
-  <section>
+  <section class="project-section">
     <h2>Implementation</h2>
-    <ul>
-      <li>Monte Carlo simulation of multi-particle random walks</li>
-      <li>Vectorized NumPy operations for efficient state updates</li>
-      <li>Explicit tracking of particle trajectories and aggregate geometry</li>
-      <li>Frame-by-frame visualization and animation generation</li>
-    </ul>
+    <div class="two-col">
+      <div class="card">
+        <h3>Simulation</h3>
+        <ul class="project-bullets">
+          <li>Monte Carlo random-walk simulation</li>
+          <li>Efficient state updates with vectorized NumPy operations</li>
+          <li>Explicit tracking of aggregate geometry over time</li>
+        </ul>
+      </div>
 
+      <div class="card">
+        <h3>Visualization</h3>
+        <ul class="project-bullets">
+          <li>Frame-by-frame rendering of the evolving cluster</li>
+          <li>Animation generation for qualitative inspection</li>
+          <li>Parameters exposed for morphology exploration (density, lattice size, release radius)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-section">
+    <h2>Key observations</h2>
+    <ul class="project-bullets">
+      <li>Growth becomes anisotropic despite isotropic diffusion</li>
+      <li>Branching emerges naturally from screening and stochasticity</li>
+      <li>Morphology is sensitive to particle density and domain size</li>
+      <li>The cluster exhibits fractal-like geometry</li>
+    </ul>
+  </section>
+
+  <section class="project-section">
+    <h2>Why this matters</h2>
     <p>
-      The animation above shows particles diffusing through the lattice and
-      progressively attaching to the growing crystal, revealing the characteristic
-      branching morphology of diffusion-limited growth.
+      This is a clean example of non-equilibrium structure formation: macroscopic order and complexity emerging from simple,
+      local probabilistic rules. The same modeling mindset applies across physics, materials, and complex systems.
     </p>
   </section>
 
-  <section>
-    <h2>Key Observations</h2>
-    <ul>
-      <li>Growth is highly anisotropic despite isotropic diffusion</li>
-      <li>Branching structures emerge naturally from stochastic motion</li>
-      <li>Aggregate morphology depends sensitively on particle density and lattice size</li>
-      <li>The resulting crystal exhibits fractal-like geometry</li>
-    </ul>
-  </section>
+  {project.links?.length > 0 && (
+    <section class="project-section">
+      <h2>Links</h2>
+      <ul class="project-bullets">
+        {project.links.map((l) => (
+          <li>
+            <a href={l.href} target="_blank" rel="noreferrer">
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
-  <section>
-    <h2>Why This Matters</h2>
-    <p>
-      Diffusion-limited aggregation provides a minimal yet powerful framework for
-      understanding non-equilibrium structure formation.
-      Variants of this model appear in:
-    </p>
-
-    <ul>
-      <li>Crystal growth and solidification</li>
-      <li>Electrodeposition and corrosion</li>
-      <li>Colloidal physics and soft matter</li>
-      <li>Pattern formation in biological systems</li>
-    </ul>
-
-    <p>
-      This project emphasizes how physically meaningful behavior can emerge from
-      simple probabilistic rules — a recurring theme across physics, materials
-      science, and complex systems.
-    </p>
-  </section>
-
-  <section>
-    <h2>Tools & Techniques</h2>
-    <ul>
-      <li>Python</li>
-      <li>NumPy</li>
-      <li>Matplotlib</li>
-      <li>Monte Carlo methods</li>
-      <li>Stochastic simulation</li>
-    </ul>
-  </section>
-
-  <p class="back-link">
-    ← <a href="/projects">Back to Projects</a>
-  </p>
+  <p class="back-link">← <a href="/projects">Back to Projects</a></p>
 </BaseLayout>
+
+<style>
+ 
+</style>
