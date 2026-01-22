@@ -1,111 +1,97 @@
-// public/js/caverunner.js
-// Cave Runner (browser) — faithful AVR rules + sprites, smooth rendering + UI controls.
+// Faithful Cave Runner 5x7 (browser)
+// Smooth render of a 5×7 matrix, but logic mirrors the AVR structure.
 
 const canvas = document.getElementById("caverunner");
 const ctx = canvas.getContext("2d");
 
-const statusEl = document.getElementById("cr-status");
-
-const btnPlay = document.getElementById("cr-play");
-const btnPause = document.getElementById("cr-pause");
-const btnReset = document.getElementById("cr-reset");
-const btnSlow = document.getElementById("cr-slow");
-const btnFS = document.getElementById("cr-fullscreen");
-
-const btnJump = document.getElementById("cr-jump");
-const btnCrouch = document.getElementById("cr-crouch");
-const btnDouble = document.getElementById("cr-double");
-
-// --- AVR sprites (exact from your headers) ---
+// --- geometry ---
 const NUM_ROWS = 7;
 const NUM_COLS = 5;
+const ROW_MASK = (1 << NUM_ROWS) - 1;
 
+// upscale for visibility (canvas can be any size; we fit cells)
+function cellSize() {
+  const csx = canvas.width / NUM_ROWS;
+  const csy = canvas.height / NUM_COLS;
+  return Math.floor(Math.min(csx, csy));
+}
+
+// --- sprites (exact from your headers) ---
 const stalagtite = [0x03, 0x03, 0x03, 0x03, 0x00];
 const bat        = [0x00, 0x00, 0x00, 0x03, 0x00];
 const rock       = [0x00, 0x00, 0x00, 0x00, 0x03];
 const boulder    = [0x00, 0x00, 0x00, 0x03, 0x03];
 const tunnel     = [0x03, 0x03, 0x00, 0x00, 0x03];
-
 const OBSTACLES = [stalagtite, rock, bat, boulder, tunnel];
 
 const runner_regular    = [0x00, 0x00, 0x00, 0x20, 0x20];
 const runner_crouch     = [0x00, 0x00, 0x00, 0x00, 0x20];
 const runner_jump       = [0x00, 0x00, 0x20, 0x20, 0x00];
 const runner_doublejump = [0x00, 0x20, 0x20, 0x00, 0x00];
-
 const RUNNER = [runner_regular, runner_crouch, runner_jump, runner_doublejump];
 
+// --- runner states ---
 const RunnerState = { REGULAR: 0, CROUCH: 1, JUMP: 2, DOUBLEJUMP: 3 };
 
+// collision rules exactly from collision.c (returns true = collision)
 function collisionCheck(runnerStatus, obstacleId) {
-  if (obstacleId === 0) {
-    if (runnerStatus === RunnerState.CROUCH) return false;
-  } else if (obstacleId === 1) {
-    if (runnerStatus === RunnerState.JUMP || runnerStatus === RunnerState.DOUBLEJUMP) return false;
-  } else if (obstacleId === 2) {
-    if (runnerStatus === RunnerState.CROUCH || runnerStatus === RunnerState.DOUBLEJUMP) return false;
-  } else if (obstacleId === 3) {
-    if (runnerStatus === RunnerState.DOUBLEJUMP) return false;
-  } else if (obstacleId === 4) {
-    if (runnerStatus === RunnerState.JUMP) return false;
-  }
+  if (obstacleId === 0) { if (runnerStatus === RunnerState.CROUCH) return false; }
+  else if (obstacleId === 1) { if (runnerStatus === RunnerState.JUMP || runnerStatus === RunnerState.DOUBLEJUMP) return false; }
+  else if (obstacleId === 2) { if (runnerStatus === RunnerState.CROUCH || runnerStatus === RunnerState.DOUBLEJUMP) return false; }
+  else if (obstacleId === 3) { if (runnerStatus === RunnerState.DOUBLEJUMP) return false; }
+  else if (obstacleId === 4) { if (runnerStatus === RunnerState.JUMP) return false; }
   return true;
 }
 
-// --- Faithful timing-ish core ---
-const ROW_MASK = (1 << NUM_ROWS) - 1;
+// --- timing model (scaled) ---
+const PACER_AVR = 500;
+// pick a browser logic tick rate that’s stable
+const PACER_GUI = 100;
+const SCALE = PACER_GUI / PACER_AVR;
 
-// "pacer" (logic) tick rate — we use a tick accumulator to keep it stable.
-const PACER_HZ = 100;
-
-// Scaled constants based on your AVR values (125 @ 500Hz -> 25 @ 100Hz)
-const MOVING_INIT = 25;
+// AVR: 125 @500Hz => 0.25s per shift. Scaled: 25 @100Hz.
+const MOVING_INIT = Math.max(1, Math.round(125 * SCALE));
 const MIN_MOVING = 3;
 
-let slowMo = false;
-let paused = true;     // start paused until user hits Play
-let gameOver = false;
-
+// --- game state (mirrors your C variables) ---
 let counter = 1;
 let score = 0;
 
+let currentColumn = 0;               // still maintained for faithfulness (not used for rendering)
 let runnerStatus = RunnerState.REGULAR;
+
+let toCopy = false;
+let randomNumber = 0;
+let objToDisplay = new Array(NUM_COLS).fill(0);  // obstacle bitmap columns
+
 let timeout = false;
 let timeoutCounter = 0;
 
 let obstacleMovingRate = MOVING_INIT;
 let obstacleRefresh = obstacleMovingRate * 6;
-let timeoutTime = obstacleMovingRate * 4;                 // fixed from init (like your AVR)
+let timeoutTime = obstacleMovingRate * 4;        // fixed-from-init like your C
 let obstacleCheck = obstacleRefresh - 2 * obstacleMovingRate;
 
-let toCopy = false;
-let randomNumber = Math.floor(Math.random() * OBSTACLES.length);
+let paused = true;
+let gameOver = false;
+let slowMo = false;
 
-// Track rendering: wider runway but still uses your 7-bit columns.
-const TRACK_W = 56;
-let track = new Array(TRACK_W).fill(0);
-let trackObstacleId = new Array(TRACK_W).fill(-1);
-
-// Runner “zone” position in the track
-const PLAYER_X = 12;
-
-// --- UI helpers ---
-function setStatus() {
-  const mode = slowMo ? "SLOW-MO" : "NORMAL";
-  const state = gameOver ? "GAME OVER" : (paused ? "PAUSED" : "RUNNING");
-  statusEl.textContent = `Score ${score} · moving_rate ${obstacleMovingRate} · ${mode} · ${state}`;
-  btnSlow.setAttribute("aria-pressed", slowMo ? "true" : "false");
+// --- helpers ---
+function randObstacle() {
+  return Math.floor(Math.random() * OBSTACLES.length);
 }
 
 function resetGame() {
-  slowMo = false;
-  paused = true;
-  gameOver = false;
-
   counter = 1;
   score = 0;
 
+  currentColumn = 0;
   runnerStatus = RunnerState.REGULAR;
+
+  toCopy = false;
+  randomNumber = randObstacle();
+  objToDisplay = new Array(NUM_COLS).fill(0);
+
   timeout = false;
   timeoutCounter = 0;
 
@@ -114,26 +100,14 @@ function resetGame() {
   timeoutTime = obstacleMovingRate * 4;
   obstacleCheck = obstacleRefresh - 2 * obstacleMovingRate;
 
-  toCopy = false;
-  randomNumber = Math.floor(Math.random() * OBSTACLES.length);
-
-  track = new Array(TRACK_W).fill(0);
-  trackObstacleId = new Array(TRACK_W).fill(-1);
-
-  spawnObstacle(); // start with one obstacle
-  setStatus();
+  paused = true;
+  gameOver = false;
+  slowMo = false;
 }
 
-function spawnObstacle() {
-  const sprite = OBSTACLES[randomNumber];
-  for (let i = 0; i < NUM_COLS; i++) {
-    const x = TRACK_W - NUM_COLS + i;
-    track[x] = sprite[i] & ROW_MASK;
-    trackObstacleId[x] = randomNumber;
-  }
-}
+resetGame();
 
-// commitment input: only accept moves when timeout == false
+// --- input (faithful “commitment”: ignore while timeout) ---
 function tryMove(state) {
   if (paused || gameOver) return;
   if (!timeout) {
@@ -142,142 +116,135 @@ function tryMove(state) {
   }
 }
 
-// --- Inputs (keyboard + on-screen buttons) ---
 window.addEventListener("keydown", (e) => {
-  if (e.code === "KeyP") { paused = !paused; setStatus(); return; }
-  if (e.code === "KeyS") { slowMo = !slowMo; setStatus(); return; }
+  if (e.code === "KeyP") { paused = !paused; return; }
+  if (e.code === "KeyS") { slowMo = !slowMo; return; }
   if (e.code === "KeyR") { resetGame(); return; }
 
-  if (e.code === "ArrowUp")   tryMove(RunnerState.JUMP);
+  if (e.code === "ArrowUp") tryMove(RunnerState.JUMP);
   if (e.code === "ArrowDown") tryMove(RunnerState.CROUCH);
-  if (e.code === "Space")     tryMove(RunnerState.DOUBLEJUMP);
-});
+  if (e.code === "Space") tryMove(RunnerState.DOUBLEJUMP);
 
-// touch controls
-btnJump?.addEventListener("click", () => tryMove(RunnerState.JUMP));
-btnCrouch?.addEventListener("click", () => tryMove(RunnerState.CROUCH));
-btnDouble?.addEventListener("click", () => tryMove(RunnerState.DOUBLEJUMP));
-
-// top buttons
-btnPlay?.addEventListener("click", () => { paused = false; setStatus(); });
-btnPause?.addEventListener("click", () => { paused = true; setStatus(); });
-btnReset?.addEventListener("click", () => resetGame());
-btnSlow?.addEventListener("click", () => { slowMo = !slowMo; setStatus(); });
-
-btnFS?.addEventListener("click", async () => {
-  try {
-    if (!document.fullscreenElement) {
-      await canvas.requestFullscreen();
-    } else {
-      await document.exitFullscreen();
-    }
-  } catch {
-    // ignore (browser policy / iframe restrictions etc.)
+  // “Play” on first input
+  if (paused && !gameOver && (e.code === "ArrowUp" || e.code === "ArrowDown" || e.code === "Space")) {
+    paused = false;
   }
 });
 
-// --- Game tick (logic) ---
-function tick() {
-  if (paused || gameOver) return;
+// --- logic tick (faithful order) ---
+function scoreIncrement() {
+  // if (counter % pacer_rate == 0) score++
+  if (counter % PACER_GUI === 0) score = (score + 1) & 0xff;
+}
 
-  // score: +1 per second in tick-time (faithful; slow-mo slows score too)
-  if (counter % PACER_HZ === 0) score = (score + 1) & 0xff;
-
-  // timeout logic
-  if (timeout) {
-    if (timeoutCounter >= timeoutTime) {
-      timeout = false;
-      timeoutCounter = 0;
-      runnerStatus = RunnerState.REGULAR;
-    } else {
-      timeoutCounter++;
-    }
+function copyObjectIfNeeded() {
+  if (!toCopy) {
+    const src = OBSTACLES[randomNumber];
+    objToDisplay = src.map((b) => b & ROW_MASK);
+    toCopy = true;
   }
+}
 
-  // move track left at moving_rate
+function moveObjectLeft() {
+  // if (counter % obstacle_moving_rate == 0) obstacle[i] <<= 1
   if (counter % obstacleMovingRate === 0) {
-    for (let x = 0; x < TRACK_W - 1; x++) {
-      track[x] = track[x + 1];
-      trackObstacleId[x] = trackObstacleId[x + 1];
-    }
-    track[TRACK_W - 1] = 0;
-    trackObstacleId[TRACK_W - 1] = -1;
+    objToDisplay = objToDisplay.map((b) => ((b << 1) & ROW_MASK));
   }
+}
 
-  // new obstacle + ramp (every refresh)
+function timeoutLogic() {
+  if (!timeout) return;
+  if (timeoutCounter >= timeoutTime) {
+    timeout = false;
+    timeoutCounter = 0;
+    runnerStatus = RunnerState.REGULAR;
+  } else {
+    timeoutCounter++;
+  }
+}
+
+function maybeNewObstacleAndRamp() {
   if (counter % obstacleRefresh === 0) {
-    randomNumber = Math.floor(Math.random() * OBSTACLES.length);
-    spawnObstacle();
+    randomNumber = randObstacle();
+    toCopy = false;
     obstacleMovingRate = Math.max(MIN_MOVING, obstacleMovingRate - 1);
   }
+}
 
-  // collision check (same scheduling behaviour as AVR)
+function maybeCollisionCheck() {
   if (counter % obstacleCheck === 0) {
-    const idAtPlayer = trackObstacleId[PLAYER_X] >= 0 ? trackObstacleId[PLAYER_X] : randomNumber;
-    if (collisionCheck(runnerStatus, idAtPlayer)) {
+    if (collisionCheck(runnerStatus, randomNumber)) {
       gameOver = true;
       paused = true;
     } else {
       obstacleCheck = counter + obstacleRefresh;
     }
   }
-
-  counter++;
-  setStatus();
 }
 
-// --- Render ---
+function columnIncrement() {
+  currentColumn++;
+  if (currentColumn >= NUM_COLS) currentColumn = 0;
+}
+
+function logicTick() {
+  if (paused || gameOver) return;
+
+  scoreIncrement();
+  copyObjectIfNeeded();
+  moveObjectLeft();
+  maybeNewObstacleAndRamp();
+  timeoutLogic();
+  maybeCollisionCheck();
+  columnIncrement();
+
+  counter++;
+}
+
+// --- rendering: full-frame, no scanning flicker ---
+function frameColumns() {
+  const r = RUNNER[runnerStatus];
+  const out = new Array(NUM_COLS);
+  for (let c = 0; c < NUM_COLS; c++) {
+    out[c] = (objToDisplay[c] | r[c]) & ROW_MASK;
+  }
+  return out;
+}
+
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const cellW = canvas.width / TRACK_W;
-  const cellH = canvas.height / NUM_ROWS;
+  const cs = cellSize();
+  const ox = Math.floor((canvas.width - NUM_ROWS * cs) / 2);
+  const oy = Math.floor((canvas.height - NUM_COLS * cs) / 2);
 
-  // subtle grid
-  ctx.globalAlpha = 0.5;
-  for (let x = 0; x < TRACK_W; x++) {
-    for (let r = 0; r < NUM_ROWS; r++) {
-      const px = x * cellW;
-      const py = (NUM_ROWS - 1 - r) * cellH;
-      ctx.strokeRect(px, py, cellW, cellH);
-    }
-  }
-  ctx.globalAlpha = 1.0;
+  const frame = frameColumns();
 
-  // draw obstacles
-  for (let x = 0; x < TRACK_W; x++) {
-    const mask = track[x];
-    if (!mask) continue;
+  // grid + LEDs
+  for (let col = 0; col < NUM_COLS; col++) {
+    const mask = frame[col];
+    for (let bit = 0; bit < NUM_ROWS; bit++) {
+      const x0 = ox + bit * cs;
+      const y0 = oy + col * cs;
+      const on = (mask >> bit) & 1;
 
-    for (let r = 0; r < NUM_ROWS; r++) {
-      if ((mask >> r) & 1) {
-        const px = x * cellW;
-        const py = (NUM_ROWS - 1 - r) * cellH;
-        ctx.fillRect(px + 1, py + 1, cellW - 2, cellH - 2);
-      }
+      ctx.strokeRect(x0, y0, cs, cs);
+      if (on) ctx.fillRect(x0 + 2, y0 + 2, cs - 4, cs - 4);
     }
   }
 
-  // draw runner overlay (OR into 5 columns at PLAYER_X)
-  const runnerCols = RUNNER[runnerStatus];
-  for (let i = 0; i < NUM_COLS; i++) {
-    const x = PLAYER_X + i;
-    if (x < 0 || x >= TRACK_W) continue;
-    const mask = runnerCols[i] & ROW_MASK;
-
-    for (let r = 0; r < NUM_ROWS; r++) {
-      if ((mask >> r) & 1) {
-        const px = x * cellW;
-        const py = (NUM_ROWS - 1 - r) * cellH;
-        ctx.fillRect(px + 1, py + 1, cellW - 2, cellH - 2);
-      }
-    }
-  }
+  // HUD
+  ctx.font = "14px system-ui, sans-serif";
+  ctx.fillText(
+    `Score: ${score}  rate:${obstacleMovingRate}  ${slowMo ? "SLOW" : "NORM"}  ${paused ? "PAUSED" : "RUN"}  ${gameOver ? "GAME OVER" : ""}`,
+    10,
+    18
+  );
+  ctx.fillText("↑ jump  ↓ crouch  Space double-jump  P pause  S slow  R reset", 10, 38);
+  if (paused && !gameOver) ctx.fillText("Press any move key to start", 10, 58);
 }
 
-// --- Main loop with tick accumulator ---
-resetGame(); // starts paused; shows "Ready"
-
+// --- main loop with tick accumulator ---
 let last = performance.now();
 let acc = 0;
 
@@ -285,12 +252,12 @@ function loop(now) {
   const dt = now - last;
   last = now;
 
-  const hz = slowMo ? (PACER_HZ / 2) : PACER_HZ;
+  const hz = slowMo ? (PACER_GUI / 2) : PACER_GUI;
   const logicMs = 1000 / hz;
 
   acc += dt;
   while (acc >= logicMs) {
-    tick();
+    logicTick();
     acc -= logicMs;
   }
 
