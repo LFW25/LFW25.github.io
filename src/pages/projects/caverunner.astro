@@ -1,0 +1,183 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const slugify = (v) =>
+  String(v ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-");
+
+const asArray = (v) => (Array.isArray(v) ? v : [v]).filter(Boolean);
+
+// Page-local project metadata (keeps this consistent with your cards)
+const project = {
+  title: "Cave Runner (AVR Embedded Game)",
+  category: ["Engineering", "Embedded"],
+  poster: "/images/caverunner-static.png",
+  video: null, // set to "/images/caverunner.mp4" if you add a clip later
+  stack: ["C", "AVR (ATmega32U2)", "LED Matrix", "Navswitch", "TinyGL", "Makefile", "dfu-programmer"],
+};
+---
+
+<BaseLayout title={project.title}>
+  <section class="project-hero">
+    <div class="project-media">
+      {project.video ? (
+        <video
+          class="project-video"
+          src={project.video}
+          poster={project.poster}
+          muted
+          loop
+          playsinline
+          preload="none"
+          controls
+        ></video>
+      ) : (
+        <img
+          class="project-image"
+          src={project.poster}
+          alt={`${project.title} preview`}
+          loading="lazy"
+        />
+      )}
+    </div>
+
+    <div class="project-meta">
+      <h1>{project.title}</h1>
+
+      <div class="tag-row">
+        {asArray(project.category).map((cat) => (
+          <span class={`badge badge-${slugify(cat)}`}>{cat}</span>
+        ))}
+      </div>
+
+      {project.stack?.length > 0 && (
+        <div class="tag-row tag-row-tech">
+          {project.stack.map((item) => (
+            <span class="tag-pill">{item}</span>
+          ))}
+        </div>
+      )}
+
+      <p class="lede">
+        A real-time obstacle-dodging game written in C for an AVR microcontroller. Obstacles scroll
+        across an LED matrix display while the player jumps, crouches, or double-jumps to survive.
+        The game includes pause/resume, a live score counter, and a flashing game-over score display.
+      </p>
+    </div>
+  </section>
+
+  <section class="project-body">
+    <h2>Gameplay</h2>
+    <p>
+      You run through a cave and must react to incoming hazards. Each obstacle type requires a specific
+      action (or set of actions) to avoid a collision. If you collide, the game ends and your score
+      flashes indefinitely.
+    </p>
+
+    <h3>Obstacle rules (collision logic)</h3>
+    <ul>
+      <li><strong>Stalactite:</strong> must <strong>crouch</strong></li>
+      <li><strong>Rock:</strong> must <strong>jump</strong> or <strong>double-jump</strong></li>
+      <li><strong>Bat:</strong> must <strong>crouch</strong> or <strong>double-jump</strong></li>
+      <li><strong>Boulder:</strong> must <strong>double-jump</strong></li>
+      <li><strong>Tunnel:</strong> must <strong>jump</strong></li>
+    </ul>
+
+    <h2>Controls</h2>
+    <ul>
+      <li><strong>Crouch:</strong> navswitch down (landscape)</li>
+      <li><strong>Jump:</strong> navswitch up (landscape)</li>
+      <li><strong>Double-jump:</strong> navswitch press</li>
+      <li><strong>Pause:</strong> navswitch left (landscape)</li>
+      <li><strong>Resume:</strong> navswitch right (landscape)</li>
+    </ul>
+
+    <h2>Technical highlights</h2>
+    <ul>
+      <li>
+        <strong>Deterministic real-time loop:</strong> the game runs at a fixed <strong>500 Hz</strong> pacer rate
+        for predictable input polling and display refresh.
+      </li>
+      <li>
+        <strong>LED matrix rendering:</strong> obstacles and the runner are stored as compact bitmasks and
+        composed per-column before being output via PIO.
+      </li>
+      <li>
+        <strong>Efficient scrolling:</strong> obstacle motion is implemented as a left bit-shift on the obstacle bitmap,
+        triggered on a timing divider (counter-mod rate).
+      </li>
+      <li>
+        <strong>Action “commitment window”:</strong> after jumping/crouching/double-jumping, input is locked for a fixed duration
+        (equivalent to ~4 pixels of motion), preventing accidental action spam and creating consistent gameplay feel.
+      </li>
+      <li>
+        <strong>Difficulty ramp:</strong> obstacle movement rate tightens over time by reducing the movement divider,
+        increasing required reaction speed.
+      </li>
+      <li>
+        <strong>Score UI via TinyGL:</strong> score increments once per second and is displayed on pause and game-over screens.
+      </li>
+    </ul>
+
+    <h2>Build & flash</h2>
+    <p>
+      Built with <code>avr-gcc</code> (size-optimised) and flashed via <code>dfu-programmer</code> to an <code>ATmega32U2</code>.
+    </p>
+    <pre><code>make
+make program</code></pre>
+
+    <h2>Code structure</h2>
+    <ul>
+      <li><code>game.c</code>: main loop, timing, obstacle spawning, rendering composition</li>
+      <li><code>objects.c</code>: LED matrix column output, obstacle shifting, input-to-state mapping</li>
+      <li><code>collision.c</code>: rule-based collision checks per obstacle type</li>
+      <li><code>counter.c</code>: loop counter utilities (prevents overflow)</li>
+      <li><code>scoredisplay.c</code>: TinyGL score rendering, pause & game-over behaviour</li>
+      <li><code>game_initialise.c</code>: system/pacer/tinygl init, random seed, gameplay parameter setup</li>
+      <li><code>Makefile</code>: AVR build + DFU flash workflow</li>
+    </ul>
+
+    <h2>Credits</h2>
+    <p>
+      Co-authored with George Fraser (University of Canterbury).
+    </p>
+  </section>
+
+  <style>
+    .project-hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .project-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+    .project-media {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .project-image,
+    .project-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .lede {
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      opacity: 0.9;
+    }
+    .project-body {
+      margin-top: 2rem;
+    }
+    pre {
+      overflow-x: auto;
+    }
+  </style>
+</BaseLayout>
