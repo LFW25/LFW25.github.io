@@ -94,6 +94,8 @@ const project = {
       <li><strong>Resume:</strong> navswitch right (landscape)</li>
     </ul>
 
+
+
     <h2>Technical highlights</h2>
     <ul>
       <li>
@@ -145,7 +147,139 @@ make program</code></pre>
     </p>
   </section>
 
-  <style>
+<section class="game-section">
+  <h2>Play it in your browser</h2>
+  <p class="game-help">
+    Controls: ↑ jump, ↓ crouch, Space double-jump, P pause, S slow-mo, R reset
+  </p>
+
+  <div class="game-card">
+    <div class="game-topbar">
+      <div class="game-status" id="cr-status">Ready</div>
+
+      <div class="game-controls">
+        <button class="game-btn" id="cr-play" type="button">Play</button>
+        <button class="game-btn" id="cr-pause" type="button">Pause</button>
+        <button class="game-btn" id="cr-reset" type="button">Reset</button>
+
+        <button class="game-btn" id="cr-slow" type="button" aria-pressed="false">
+          Slow-mo
+        </button>
+
+        <button class="game-btn game-btn-muted" id="cr-fullscreen" type="button">
+          Fullscreen
+        </button>
+      </div>
+    </div>
+
+    <canvas id="caverunner" width="840" height="260"></canvas>
+
+    <div class="touch-controls" aria-label="Touch controls">
+      <button class="touch-btn" id="cr-jump" type="button">Jump</button>
+      <button class="touch-btn" id="cr-crouch" type="button">Crouch</button>
+      <button class="touch-btn" id="cr-double" type="button">Double-jump</button>
+    </div>
+  </div>
+
+  <script type="module" src="/js/caverunner.js"></script>
+</section>
+
+<style>
+  .game-section {
+    margin-top: 2rem;
+  }
+
+  .game-help {
+    opacity: 0.85;
+    margin-top: 0.5rem;
+  }
+
+  .game-card {
+    margin-top: 1rem;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .game-topbar {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .game-status {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    white-space: nowrap;
+  }
+
+  .game-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .game-btn {
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .game-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .game-btn[aria-pressed="true"] {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  .game-btn-muted {
+    opacity: 0.85;
+  }
+
+  canvas#caverunner {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  .touch-controls {
+    display: none;
+    gap: 0.6rem;
+    padding: 0.8rem 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .touch-btn {
+    flex: 1;
+    padding: 0.75rem 0.8rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .touch-btn:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Show touch controls on small screens */
+  @media (max-width: 760px) {
+    .touch-controls {
+      display: flex;
+    }
+  }
     .project-hero {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
