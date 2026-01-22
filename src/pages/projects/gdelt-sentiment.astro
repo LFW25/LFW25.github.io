@@ -1,0 +1,196 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const project = {
+  title: "Global Health Sentiment Similarity (GDELT + PySpark)",
+  subtitle:
+  "Large-scale analysis of global health-news sentiment using GDELT, distributed MapReduce (PySpark), and vector-based NLP similarity methods.",
+  tags: ["Data Science"],
+  stackShort: ["Python", "PySpark", "MapReduce", "GDELT 2.0", "Cosine Similarity", "Matplotlib", "NLP-ish", "Distributed Computing"],
+  poster: "/images/gdelt-sentiment-static.png",
+  video: null,
+  links: [
+    // { label: "Final report (PDF)", href: "/files/FinalReport.pdf" },
+    // { label: "Code", href: "https://github.com/..." },
+  ],
+};
+---
+
+<BaseLayout title="GDELT Health Sentiment Similarity">
+  <header class="project-header">
+    <h1>{project.title}</h1>
+    <p class="project-subtitle">{project.subtitle}</p>
+
+    <div class="tag-row">
+      {project.tags.map((tag) => (
+        <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>{tag}</span>
+      ))}
+    </div>
+
+    <div class="tag-row tag-row-tech">
+      {project.stackShort.map((item) => (
+        <span class="tag-pill">{item}</span>
+      ))}
+    </div>
+  </header>
+
+  {!project.video && project.poster && (
+    <section class="project-media-block">
+      <figure class="project-figure">
+        <img class="project-image" src={project.poster} alt={project.title} loading="lazy" />
+        <figcaption class="project-caption">
+          Sentiment progression + similarity results (replace with your exported plot PDFs/SVGs if you want).
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
+  <section class="project-section">
+  <h2>Research question</h2>
+  <p>
+    <strong>How similar is the sentiment of health-related news coverage</strong> between New Zealand and other
+    countries over time, and how can that similarity be computed efficiently over a
+    <strong>large, distributed news dataset</strong>?
+  </p>
+  <p class="project-muted">
+    The emphasis is both analytical (sentiment similarity) and computational: designing a pipeline that scales
+    to hundreds of country–month datasets using parallel processing.
+  </p>
+</section>
+
+<section class="project-section">
+  <h2>Big Data source</h2>
+  <p>
+    This project uses the <strong>GDELT 2.0 global event database</strong>, which continuously aggregates and
+    annotates news articles from across the world. I queried GDELT’s document API to retrieve
+    <strong>health-related sentiment tone charts</strong> for multiple countries over a multi-year period.
+  </p>
+
+  <div class="card">
+    <h3>Scale characteristics</h3>
+    <ul class="project-bullets">
+      <li>222 CSV files (6 countries × 37 months)</li>
+      <li>Each file aggregates thousands of news articles into tone-distribution buckets</li>
+      <li>Data volume and structure motivated a distributed processing approach</li>
+    </ul>
+  </div>
+
+  <p class="project-muted">
+    While the per-file CSVs are modest in size, the overall workload reflects a common Big Data pattern:
+    <strong>many independent data partitions requiring identical transformations</strong>.
+  </p>
+</section>
+
+
+<section class="project-section">
+  <h2>Method: distributed sentiment aggregation</h2>
+
+  <p>
+    I implemented the analysis using <strong>PySpark</strong> to emphasize distributed computation and
+    parallelisation. Each country–month dataset was processed using a
+    <strong>MapReduce-style aggregation</strong> to compute an average sentiment score from tone buckets.
+  </p>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Parallel MapReduce design</h3>
+      <ul class="project-bullets">
+        <li>Map step: emit <code>(count)</code> and <code>(tone × count)</code> pairs per bucket</li>
+        <li>Reduce step: aggregate sums across partitions</li>
+        <li>Final step: compute weighted average sentiment per month</li>
+        <li>Executed using Spark RDDs to allow parallel execution across nodes</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>NLP-inspired similarity</h3>
+      <ul class="project-bullets">
+        <li>Each country represented as a sentiment time-series vector</li>
+        <li>Vectors compared using <strong>cosine similarity</strong></li>
+        <li>Discrete tone scaling applied to stabilize similarity metrics</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="project-muted">
+    Although this is not transformer-based NLP, the approach reflects a classic NLP workflow:
+    transforming unstructured text into numerical representations and comparing documents
+    (here, countries over time) in vector space.
+  </p>
+</section>
+
+
+  <section class="project-section">
+    <h2>Results</h2>
+    <p>
+      The sentiment progression was <strong>highly similar</strong> across all countries studied. New Zealand’s closest
+      match was <strong>China</strong> (S ≈ 0.983) and the least similar was the <strong>United States</strong> (S ≈ 0.916),
+      but all similarities remained high.
+    </p>
+
+    <div class="card">
+      <h3>Key takeaway</h3>
+      <p class="project-muted" style="margin-top: 0.6rem;">
+        The alignment of peaks/troughs across countries suggests a broadly consistent global media tone around health
+        events during the COVID-era time window.
+      </p>
+    </div>
+  </section>
+
+<section class="project-section">
+  <h2>Parallelisation & performance analysis</h2>
+
+  <p>
+    A core goal of this project was to evaluate the effectiveness of parallelisation for this workload.
+    I ran the pipeline across multiple Spark configurations to measure scaling behavior.
+  </p>
+
+  <ul class="project-bullets">
+    <li>Tested execution on 1, 2, 8, and 16 nodes</li>
+    <li>Observed limited or negative speedup with increased parallelism</li>
+    <li>Identified overhead from repeated small-RDD creation and forced sequential steps</li>
+  </ul>
+
+  <div class="card">
+    <h3>Engineering insight</h3>
+    <p class="project-muted" style="margin-top: 0.6rem;">
+      This result is itself instructive: parallel frameworks do not guarantee speedup.
+      Effective Big Data systems require batching, minimizing driver-side logic,
+      and structuring transformations to amortize scheduling and I/O costs.
+    </p>
+  </div>
+</section>
+
+
+  <section class="project-section">
+    <h2>What I’d improve next</h2>
+    <div class="two-col">
+      <div class="card">
+        <h3>Engineering</h3>
+        <ul class="project-bullets">
+          <li>Reduce small-RDD overhead by batching CSV ingestion</li>
+          <li>Minimize Python-side loops; push aggregation into Spark transformations</li>
+          <li>Cache/persist where appropriate; profile stages explicitly</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Analysis</h3>
+        <ul class="project-bullets">
+          <li>Broaden country set and extend timeline beyond COVID-era</li>
+          <li>Compare multiple keyword filters (e.g., “vaccine”, “pandemic”, “hospital”)</li>
+          <li>Add uncertainty estimates (bootstrap months / resample sources)</li>
+        </ul>
+      </div>
+    </div>
+<p class="project-muted" style="margin-top: 1.2rem;">
+  Beyond the specific sentiment results, this project demonstrates end-to-end data science systems thinking:
+  working with a global-scale dataset, designing parallel MapReduce-style aggregations in PySpark,
+  applying NLP-inspired vector representations, and critically evaluating when distributed computation
+  meaningfully improves performance — and when overhead dominates.
+</p>
+
+  </section>
+
+  <p class="back-link">← <a href="/projects">Back to Projects</a></p>
+</BaseLayout>
