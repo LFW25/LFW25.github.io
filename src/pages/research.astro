@@ -66,40 +66,36 @@ const researchAreas = [
     Conducted at both the University of Canterbury in Christchurch, New Zealand and McGill University in Montreal, Quebec, my research spans experimental physics, computational modeling, and applied quantitative analysis. I focus on building predictive models, designing experimental systems, and applying rigorous scientific computing methods to solve complex physical and sustainability-related problems.
   </p>
 
-  <div class="research-grid">
-    {researchAreas.map((area, index) => (
-      <div class="research-card">
-  <h2>{area.title}</h2>
+<div class="research-grid">
+  {researchAreas.map((area) => (
+    <div class="research-card">
+      <h2>{area.title}</h2>
 
-<h3 class="project-title">{project.title}</h3>
+      <div class="tag-row">
+        {(Array.isArray(area.tags) ? area.tags : [area.tags]).map((tag) => (
+          <span class={`badge badge-${String(tag).toLowerCase().replace(/\s+/g, "-")}`}>
+            {tag}
+          </span>
+        ))}
+      </div>
 
-<div class="tag-row">
-  {(Array.isArray(project.category) ? project.category : [project.category]).map(cat => (
-    <span class={`badge badge-${String(cat).toLowerCase().replace(/\s+/g, "-")}`}>
-      {cat}
-    </span>
+      {area.stack?.length > 0 && (
+        <div class="tag-row tag-row-tech">
+          {area.stack.map((item) => (
+            <span class="tag-pill">{item}</span>
+          ))}
+        </div>
+      )}
+
+      <p>{area.description}</p>
+
+      <details>
+        <summary>View Details</summary>
+        <ul>
+          {area.details.map((detail) => <li>{detail}</li>)}
+        </ul>
+      </details>
+    </div>
   ))}
 </div>
-
-
-{area.stack?.length > 0 && (
-  <div class="tag-row tag-row-tech">
-    {area.stack.map(item => (
-      <span class="tag-pill">{item}</span>
-    ))}
-  </div>
-)}
-
-  <p>{area.description}</p>
-
-  <details>
-    <summary>View Details</summary>
-    <ul>
-      {area.details.map(detail => <li>{detail}</li>)}
-    </ul>
-  </details>
-</div>
-
-    ))}
-  </div>
 </BaseLayout>
