@@ -48,25 +48,68 @@ const { title } = Astro.props;
       <slot />
     </main>
 
+<!-- Global lightbox (used by any .results-zoom links) -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <div class="lightbox-backdrop" data-close="true"></div>
+
+  <div class="lightbox-content" role="dialog" aria-modal="true" aria-label="Expanded image view">
+    <button class="lightbox-close" type="button" data-close="true" aria-label="Close">×</button>
+
+    <img id="lightboxImg" class="lightbox-img" alt="" />
+    <p id="lightboxCaption" class="lightbox-caption"></p>
+  </div>
+</div>
+
 <script>
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxCaption = document.getElementById("lightboxCaption");
+
+  const openLightbox = (src, alt, caption) => {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || "";
+    lightboxCaption.textContent = caption || "";
+
+    lightbox.setAttribute("aria-hidden", "false");
+    lightbox.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+
+    lightboxImg.src = "";
+    lightboxImg.alt = "";
+    lightboxCaption.textContent = "";
+    document.body.style.overflow = "";
+  };
+
+  // Use event delegation so it works even if content changes
   document.addEventListener("click", (e) => {
-    const zoom = e.target.closest(".results-zoom");
-    if (!zoom) return;
+    const a = e.target.closest(".results-zoom");
+    if (!a) return;
 
     e.preventDefault();
+    const src = a.getAttribute("data-full");
+    const alt = a.getAttribute("data-alt") || a.querySelector("img")?.alt || "";
+    const caption = a.closest("figure")?.querySelector("figcaption")?.textContent || "";
+    if (!src) return;
 
-    const src = zoom.dataset.full;
-    const alt = zoom.dataset.alt || "";
+    openLightbox(src, alt, caption);
+  });
 
-    const overlay = document.createElement("div");
-    overlay.className = "image-overlay";
-    overlay.innerHTML = `
-      <div class="image-overlay-backdrop"></div>
-      <img src="${src}" alt="${alt}" />
-    `;
+  // Close when clicking backdrop or close button
+  lightbox.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target && target.getAttribute("data-close") === "true") closeLightbox();
+  });
 
-    overlay.addEventListener("click", () => overlay.remove());
-    document.body.appendChild(overlay);
+  // Close on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lightbox.classList.contains("is-open")) {
+      closeLightbox();
+    }
   });
 </script>
 
