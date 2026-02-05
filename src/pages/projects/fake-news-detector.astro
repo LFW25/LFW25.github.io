@@ -38,12 +38,12 @@ const project = {
       <figure class="project-figure">
         <img
           class="project-image"
-          src={project.poster}
+          src="/images/fake-news-top-fake.png"
           alt={project.title}
           loading="lazy"
         />
         <figcaption class="project-caption">
-          Confusion matrices and feature-weight analysis from linear text classifiers.
+          The top words that indicate an article might be fake news, both biased and unbiased, for each method.
         </figcaption>
       </figure>
     </section>
@@ -118,6 +118,94 @@ const project = {
   </div>
 </section>
 
+<section class="results-section">
+  <h2>How the Fake News Detector Behaves</h2>
+
+  <p class="results-intro">
+    I’m not trying to “wow” anyone with a black box here — the whole point was to build a strong, inspectable baseline.
+    These figures show (1) how often the models get things wrong, (2) what happens when I try to reduce dataset bias,
+    and (3) which words the linear models are actually using as evidence for “fake” vs “real”.
+  </p>
+
+  <div class="results-grid">
+    <figure class="results-card">
+      <a
+        class="results-zoom"
+        href="#"
+        data-full="/images/fake-news-confusion_matrices.png"
+        data-alt="Confusion matrices for Logistic Regression and Linear SVM (biased vs debiased)"
+      >
+        <img
+          src="/images/fake-news-confusion_matrices.png"
+          alt="Confusion matrices for Logistic Regression and Linear SVM (biased vs debiased)"
+          loading="lazy"
+        />
+        <span class="zoom-hint">Click to expand</span>
+      </a>
+      <figcaption>
+        Confusion matrices for both models, before and after debiasing. This is the “where do they fail?” view.
+      </figcaption>
+    </figure>
+
+    <figure class="results-card">
+      <a
+        class="results-zoom"
+        href="#"
+        data-full="/images/fake-news-metrics_comparison.png"
+        data-alt="Accuracy and F1 score comparison across models (biased vs debiased)"
+      >
+        <img
+          src="/images/fake-news-metrics_comparison.png"
+          alt="Accuracy and F1 score comparison across models (biased vs debiased)"
+          loading="lazy"
+        />
+        <span class="zoom-hint">Click to expand</span>
+      </a>
+      <figcaption>
+        Accuracy and F1 (fake = 1) across models. Useful for comparing “headline performance” without losing the plot.
+      </figcaption>
+    </figure>
+
+    <figure class="results-card">
+      <a
+        class="results-zoom"
+        href="#"
+        data-full="/images/fake-news-top-fake.png"
+        data-alt="Top fake-leaning TF–IDF features (LogReg/SVM, biased vs debiased)"
+      >
+        <img
+          src="/images/fake-news-top-fake.png"
+          alt="Top fake-leaning TF–IDF features (LogReg/SVM, biased vs debiased)"
+          loading="lazy"
+        />
+        <span class="zoom-hint">Click to expand</span>
+      </a>
+      <figcaption>
+        “Fake-leaning” features: the words/phrases that push predictions toward fake news in each model.
+      </figcaption>
+    </figure>
+
+    <figure class="results-card">
+      <a
+        class="results-zoom"
+        href="#"
+        data-full="/images/fake-news-top-true.png"
+        data-alt="Top real-leaning TF–IDF features (LogReg/SVM, biased vs debiased)"
+      >
+        <img
+          src="/images/fake-news-top-true.png"
+          alt="Top real-leaning TF–IDF features (LogReg/SVM, biased vs debiased)"
+          loading="lazy"
+        />
+        <span class="zoom-hint">Click to expand</span>
+      </a>
+      <figcaption>
+        “Real-leaning” features: terms associated with more conventional reporting (dates, institutions, attribution).
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
 
 <section class="project-section">
   <h2>Evaluation</h2>
@@ -129,7 +217,9 @@ const project = {
     Rather than focusing only on headline accuracy, I looked closely at the
     confusion matrices to understand where and how the models failed.
   </p>
-
+<p>
+A good next step would also be to write an AI-writing detector, since that is a more prevalent issue.
+</p>
   <div class="card">
     <h3>What I paid attention to</h3>
     <ul class="project-bullets">
@@ -139,6 +229,8 @@ const project = {
     </ul>
   </div>
 </section>
+
+
 
 
 <section class="project-section">
