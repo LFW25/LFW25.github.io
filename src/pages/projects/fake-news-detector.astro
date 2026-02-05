@@ -1,0 +1,203 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const project = {
+  title: "Fake News Detection with Classical NLP",
+  subtitle:
+    "Supervised text classification of real vs. fake news using TF–IDF features and linear models, with interpretability-focused analysis.",
+  tags: ["Data Science"],
+  stackShort: ["Python", "scikit-learn", "TF-IDF", "Logistic Regression", "SVM", "Data Visualization", "NLP", "Machine Learning"],
+  poster: "/images/fake-news-static.png",
+  video: null,
+  links: [
+    // { label: "Notebook", href: "https://github.com/..." },
+  ],
+};
+---
+
+<BaseLayout title="Fake News Detection">
+  <header class="project-header">
+    <h1>{project.title}</h1>
+    <p class="project-subtitle">{project.subtitle}</p>
+
+    <div class="tag-row">
+      {project.tags.map((tag) => (
+        <span class={`badge badge-${tag.toLowerCase().replace(/\s+/g, "-")}`}>{tag}</span>
+      ))}
+    </div>
+
+    <div class="tag-row tag-row-tech">
+      {project.stackShort.map((item) => (
+        <span class="tag-pill">{item}</span>
+      ))}
+    </div>
+  </header>
+
+  {!project.video && project.poster && (
+    <section class="project-media-block">
+      <figure class="project-figure">
+        <img
+          class="project-image"
+          src={project.poster}
+          alt={project.title}
+          loading="lazy"
+        />
+        <figcaption class="project-caption">
+          Confusion matrices and feature-weight analysis from linear text classifiers.
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
+  <section class="project-section">
+  <h2>Problem</h2>
+  <p>
+    This project looks at a straightforward but important question: how well can we distinguish
+    between real and fake news articles using text alone?
+  </p>
+  <p>
+    Rather than jumping straight to large neural models, I focused on
+    <strong>classical NLP approaches</strong> that are fast to train, easy to inspect,
+    and still surprisingly effective. The emphasis here is on understanding what signals the models are actually using, as well as performance.
+  </p>
+</section>
+
+<section class="project-section">
+  <h2>Dataset</h2>
+  <p>
+    The dataset consists of labeled real and fake news articles. Each article was treated as a
+    standalone document and converted into numerical features using
+    <strong>TF–IDF vectorization</strong>.
+  </p>
+  <p class="project-muted">
+    This representation captures which words are distinctive within the corpus,
+    while remaining simple enough to reason about directly.
+  </p>
+
+  <div class="card">
+    <h3>Preprocessing</h3>
+    <ul class="project-bullets">
+      <li>Text normalization and tokenization</li>
+      <li>Stopword removal</li>
+      <li>TF–IDF feature construction</li>
+      <li>Train/test split for evaluation</li>
+    </ul>
+  </div>
+</section>
+
+
+<section class="project-section">
+  <h2>Models</h2>
+  <p>
+    I trained two linear classifiers that are commonly used as strong baselines for
+    text classification tasks: <strong>logistic regression</strong> and a
+    <strong>support vector machine (SVM)</strong>.
+  </p>
+  <p>
+    Using linear models keeps the comparison clean: both models operate on the same
+    TF–IDF feature space, making differences in behavior easier to interpret.
+  </p>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Logistic Regression</h3>
+      <ul class="project-bullets">
+        <li>Probabilistic linear classifier</li>
+        <li>Fast training and stable performance</li>
+        <li>Directly interpretable feature weights</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Support Vector Machine</h3>
+      <ul class="project-bullets">
+        <li>Margin-based classifier</li>
+        <li>Well-suited to high-dimensional text data</li>
+        <li>Often slightly stronger separation between classes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<section class="project-section">
+  <h2>Evaluation</h2>
+  <p>
+    Both models achieved strong performance on the test set.
+    The SVM slightly outperformed logistic regression, though the difference was modest.
+  </p>
+  <p>
+    Rather than focusing only on headline accuracy, I looked closely at the
+    confusion matrices to understand where and how the models failed.
+  </p>
+
+  <div class="card">
+    <h3>What I paid attention to</h3>
+    <ul class="project-bullets">
+      <li>Balance between false positives and false negatives</li>
+      <li>Consistency of predictions across samples</li>
+      <li>Qualitative differences in decision boundaries</li>
+    </ul>
+  </div>
+</section>
+
+
+<section class="project-section">
+  <h2>Interpretability & NLP insight</h2>
+  <p>
+    One advantage of linear models is that their decisions can be inspected directly.
+    By examining feature weights, it’s possible to see which words most strongly
+    influenced the classification.
+  </p>
+
+  <ul class="project-bullets">
+    <li>
+      Fake news articles tended to rely more on emotionally charged or attention-grabbing language
+    </li>
+    <li>
+      Real news articles more often referenced dates, institutions, or named sources
+    </li>
+    <li>
+      These patterns align with known stylistic differences in misinformation
+    </li>
+  </ul>
+
+  <p class="project-muted">
+    While this is a simple NLP pipeline by modern standards, it captures the core idea:
+    transform text into a numerical representation, learn a decision boundary,
+    and interpret what the model has learned.
+  </p>
+</section>
+
+
+<section class="project-section">
+  <h2>What this demonstrates</h2>
+  <p>
+    This project shows that classical NLP methods remain strong baselines for text classification,
+    particularly when interpretability matters.
+  </p>
+  <p>
+    More broadly, it reflects an end-to-end data science workflow:
+    preprocessing raw text, building features, comparing models,
+    evaluating results, and asking what the model is actually doing.
+  </p>
+</section>
+
+
+  {project.links?.length > 0 && (
+    <section class="project-section">
+      <h2>Links</h2>
+      <ul class="project-bullets">
+        {project.links.map((l) => (
+          <li>
+            <a href={l.href} target="_blank" rel="noreferrer">
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <p class="back-link">← <a href="/projects">Back to Projects</a></p>
+</BaseLayout>
