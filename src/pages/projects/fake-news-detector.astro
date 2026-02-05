@@ -53,11 +53,11 @@ const project = {
   <h2>Problem</h2>
   <p>
     This project looks at a straightforward but important question: how well can we distinguish
-    between real and fake news articles using text alone?
+    between real and fake news articles using text alone? I've been wanting to get into NLP for a while and it seemed particularly relevant to look into fake news detection.
   </p>
   <p>
     Rather than jumping straight to large neural models, I focused on
-    <strong>classical NLP approaches</strong> that are fast to train, easy to inspect,
+    >classical NLP approaches that are fast to train, easy to inspect,
     and still surprisingly effective. The emphasis here is on understanding what signals the models are actually using, as well as performance.
   </p>
 </section>
@@ -66,8 +66,7 @@ const project = {
   <h2>Dataset</h2>
   <p>
     The dataset consists of labeled real and fake news articles. Each article was treated as a
-    standalone document and converted into numerical features using
-    <strong>TF–IDF vectorization</strong>.
+    standalone document and converted into numerical features using TF–IDF vectorization.
   </p>
   <p class="project-muted">
     This representation captures which words are distinctive within the corpus,
@@ -90,8 +89,8 @@ const project = {
   <h2>Models</h2>
   <p>
     I trained two linear classifiers that are commonly used as strong baselines for
-    text classification tasks: <strong>logistic regression</strong> and a
-    <strong>support vector machine (SVM)</strong>.
+    text classification tasks: logistic regression and a
+    support vector machine (SVM).
   </p>
   <p>
     Using linear models keeps the comparison clean: both models operate on the same
