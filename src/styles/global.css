@@ -463,17 +463,21 @@ code {
 .results-zoom {
   display: block;
   position: relative;
+  height: auto;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .results-zoom img {
   width: 100%;
+  height: auto;
+  object-fit: contain;
   display: block;
   border-radius: 10px;
   transform: scale(1);
   transition: transform 0.25s ease;
 }
+
 
 .results-zoom:hover img {
   transform: scale(1.02);
@@ -653,11 +657,14 @@ code {
 
 .lightbox-img {
   max-width: min(1100px, 95vw);
-  max-height: 80vh;
+  max-height: 90vh;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: #000;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+  width: auto;
+  height: auto;
 }
 
 .lightbox-caption {
