@@ -47,5 +47,30 @@ const { title } = Astro.props;
     <main>
       <slot />
     </main>
+
+<script>
+  document.addEventListener("click", (e) => {
+    const zoom = e.target.closest(".results-zoom");
+    if (!zoom) return;
+
+    e.preventDefault();
+
+    const src = zoom.dataset.full;
+    const alt = zoom.dataset.alt || "";
+
+    const overlay = document.createElement("div");
+    overlay.className = "image-overlay";
+    overlay.innerHTML = `
+      <div class="image-overlay-backdrop"></div>
+      <img src="${src}" alt="${alt}" />
+    `;
+
+    overlay.addEventListener("click", () => overlay.remove());
+    document.body.appendChild(overlay);
+  });
+</script>
+
+
+
   </body>
 </html>
